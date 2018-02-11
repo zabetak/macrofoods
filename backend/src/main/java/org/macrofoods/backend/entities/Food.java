@@ -1,14 +1,27 @@
 package org.macrofoods.backend.entities;
 
-public final class Food {
-	private final int id;
-	private final FoodGroup fdGroup;
-	private final boolean isSurvey;
-	private final short refuse;
-	private final float nFactor;
-	private final float protFactor;
-	private final float fatFactor;
-	private final float choFactor;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Food")
+public class Food {
+
+	@Id
+	private int id;
+	@ManyToOne
+	private FoodGroup fdGroup;
+	private boolean isSurvey;
+	private short refuse;
+	private float nFactor;
+	private float protFactor;
+	private float fatFactor;
+	private float choFactor;
+
+	public Food() {
+	}
 
 	public Food(int id, FoodGroup fdGroup, boolean isSurvey, short refuse, float nFactor, float protFactor,
 			float fatFactor, float choFactor) {
