@@ -1,0 +1,21 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+	version="2.1">
+
+	<persistence-unit name="CRM">
+		<description>
+            TODO Add a description
+        </description>
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<non-jta-data-source>java:comp/env/jdbc/postgres</non-jta-data-source>
+		<class>org.macrofoods.backend.entities.Food</class>
+		<class>org.macrofoods.backend.entities.FoodGroup</class>
+		<properties>
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+		</properties>
+	</persistence-unit>
+
+</persistence>
