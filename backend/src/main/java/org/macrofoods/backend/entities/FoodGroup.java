@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "FoodGroup")
+@Table
 public class FoodGroup {
 
 	@Id
@@ -16,10 +16,5 @@ public class FoodGroup {
 
 	public FoodGroup(int aId) {
 		this.id = aId;
-	}
-
-	@Override
-	public String toString() {
-		return "FG" + Integer.toString(id);
 	}
 }
