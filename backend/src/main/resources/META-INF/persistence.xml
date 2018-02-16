@@ -10,8 +10,6 @@
         </description>
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<non-jta-data-source>java:comp/env/jdbc/postgres</non-jta-data-source>
-		<class>org.macrofoods.backend.entities.Food</class>
-		<class>org.macrofoods.backend.entities.FoodGroup</class>
 		<properties>
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.hbm2ddl.auto" value="update" />
