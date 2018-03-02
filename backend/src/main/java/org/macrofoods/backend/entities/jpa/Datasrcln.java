@@ -1,4 +1,4 @@
-package org.macrofoods.backend.entities;
+package org.macrofoods.backend.entities.jpa;
 
 import java.io.Serializable;
 
@@ -8,23 +8,24 @@ import javax.persistence.IdClass;
 import javax.persistence.ManyToOne;
 
 /**
- * The persistent class for the "LANGUAL" database table.
  * 
  */
 @Entity
-@IdClass(LangualId.class)
-public class Langual implements Serializable {
+@IdClass(DatasrclnID.class)
+public class Datasrcln implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@ManyToOne
 	private Food food;
-
 	@Id
 	@ManyToOne
-	private Langdesc langdesc;
+	private Nutrient nutrient;
+	@Id
+	@ManyToOne
+	private Datasrc datasrc;
 
-	public Langual() {
+	public Datasrcln() {
 	}
 
 }

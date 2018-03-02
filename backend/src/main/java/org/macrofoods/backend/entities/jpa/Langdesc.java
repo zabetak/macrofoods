@@ -1,4 +1,4 @@
-package org.macrofoods.backend.entities;
+package org.macrofoods.backend.entities.jpa;
 
 import java.io.Serializable;
 
@@ -7,20 +7,21 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 /**
+ * The persistent class for the "LANGDESC" database table.
  * 
  */
 @Entity
-public class DerivationCode implements Serializable {
+public class Langdesc implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(unique = true, nullable = false, length = 4)
+	@Column(unique = true, nullable = false, length = 5)
 	private String id;
 
-	@Column(nullable = false, length = 120)
+	@Column(length = 140)
 	private String description;
 
-	public DerivationCode() {
+	public Langdesc() {
 	}
 
 	public String getId() {

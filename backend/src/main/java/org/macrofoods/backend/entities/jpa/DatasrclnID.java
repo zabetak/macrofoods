@@ -1,4 +1,4 @@
-package org.macrofoods.backend.entities;
+package org.macrofoods.backend.entities.jpa;
 
 import java.io.Serializable;
 
