@@ -50,7 +50,7 @@
 						<server>Tomcat-localhost</server>
 						<!-- <url>${tomcat.deploy.url}</url> -->
 						<url>http://localhost:8080/manager/text</url>
-						<path>/stamhello</path>
+						<path>/macrofoods</path>
 					</configuration>
 				</plugin>
 				<plugin>
