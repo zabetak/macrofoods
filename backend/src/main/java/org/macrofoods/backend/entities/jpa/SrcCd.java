@@ -16,7 +16,7 @@ public class SrcCd implements Serializable {
 
 	@Id
 	@Column(unique = true, nullable = false)
-	private short id;
+	private int id;
 
 	@Column(nullable = false, length = 60)
 	private String description;
@@ -24,11 +24,11 @@ public class SrcCd implements Serializable {
 	public SrcCd() {
 	}
 
-	public short getId() {
+	public int getId() {
 		return this.id;
 	}
 
-	public void setId(short id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
