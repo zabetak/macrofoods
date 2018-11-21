@@ -28,8 +28,8 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-jpamodelgen</artifactId>
 			<version>5.2.12.Final</version>
-			<!-- No need to bundle the modelgen jars in the webapp since they
-			are used only at compile time to generate the metadata classess-->
+			<!-- No need to bundle the modelgen jars in the webapp since they are 
+				used only at compile time to generate the metadata classess -->
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -48,6 +48,11 @@
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
 			<version>2.2.8</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.7</version>
 		</dependency>
 	</dependencies>
 	<build>
