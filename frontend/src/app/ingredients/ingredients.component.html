@@ -1,0 +1,11 @@
+<h3>Ingredients</h3>
+<div *ngFor="let food of ingredients">
+  <span><input [(ngModel)]="food.qty" (keyup)="calculateSums()">gr, </span>
+  <span>{{food.description}}</span>
+</div>
+<ul *ngIf="calTotal!=0">
+  <li>{{calTotal}} <span>Kcal</span></li>
+  <li>{{protTotal}} <span>Proteins</span></li>
+  <li>{{carbTotal}} <span>Carbs</span></li>
+  <li>{{fatTotal}} <span>Fats</span></li>
+</ul>

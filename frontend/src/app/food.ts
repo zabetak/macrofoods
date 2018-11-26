@@ -6,4 +6,5 @@ export class Food {
   protein: number;
   carbohydrate: number;
   fat: number;
+  qty: number = 100;
 }

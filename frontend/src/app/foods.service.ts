@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Food } from './food';
-import { FOODS } from './mock-foods';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -26,7 +25,7 @@ export class FoodsService {
 
     return this.http.get<Food[]>(this.baseUrl+'/foods',options)
       .pipe(
-        tap(heroes => this.log(`fetched heroes`)),
+        tap(foods => foods.forEach(food => food.qty = 100)),
         catchError(this.handleError('getHeroes', []))
       );
   }

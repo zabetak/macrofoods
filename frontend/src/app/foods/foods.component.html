@@ -1,22 +1,14 @@
+<app-ingredients [food]="selectedFood"></app-ingredients>
 <h4>Food search</h4>
 <input #searchBox id="search-box" (keyup)="search(searchBox.value)" />
-<table>
-  <tr>
-    <td>Id</td>
-    <td>Description</td>
-    <td>Category</td>
-    <td>Kcal</td>
-    <td>Proteins</td>
-    <td>Carbs</td>
-    <td>Fats</td>
-  </tr>
-  <tr *ngFor="let food of foods | async">
-    <td>{{food.id}}</td>
-    <td>{{food.description}}</td>
-    <td>{{food.category}}</td>
-    <td>{{food.kcal}}</td>
-    <td>{{food.protein}}</td>
-    <td>{{food.carbohydrate}}</td>
-    <td>{{food.fat}}</td>
-  </tr>
-</table>
+<div>
+  <div *ngFor="let food of foods | async" (click)="onSelect(food)">
+    <div><span>{{food.description}}</span> <span>({{food.category}})</span></div>
+    <ul>
+      <li>{{food.kcal}} <span>Kcal</span></li>
+      <li>{{food.protein}} <span>Proteins</span></li>
+      <li>{{food.carbohydrate}} <span>Carbs</span></li>
+      <li>{{food.fat}} <span>Fats</span></li>
+    </ul>
+  </div>
+</div>

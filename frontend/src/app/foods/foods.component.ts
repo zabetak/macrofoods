@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Food } from '../food';
-import { FOODS } from '../mock-foods';
 import { FoodsService } from '../foods.service';
 import { Observable } from 'rxjs/Observable';
 import { Subject }    from 'rxjs/Subject';
@@ -15,6 +14,7 @@ import {
 })
 export class FoodsComponent implements OnInit {
   foods: Observable<Food[]>;
+  selectedFood: Food;
 
   private searchTerms = new Subject<string>();
 
@@ -35,6 +35,10 @@ export class FoodsComponent implements OnInit {
 
   search(term: string): void {
     this.searchTerms.next(term);
+  }
+
+  onSelect(food: Food): void {
+      this.selectedFood = food;
   }
 
 }
