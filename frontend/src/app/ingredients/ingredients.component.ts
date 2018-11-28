@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Ingredient } from '../ingredient';
 import { Food } from '../food';
 
 
@@ -10,7 +11,7 @@ import { Food } from '../food';
 })
 export class IngredientsComponent implements OnInit {
 
-  ingredients: Food[] = [];
+  ingredients: Ingredient[] = [];
   calTotal: number = 0;
   protTotal: number = 0;
   carbTotal: number = 0;
@@ -22,9 +23,15 @@ export class IngredientsComponent implements OnInit {
   }
 
   @Input()
-  set food(food: Food) {
-      if(food != null){
-        this.ingredients.push(Object.assign({}, food));
+  set food(iFood: Food) {
+      if(iFood != null){
+        let ing: Ingredient = {
+            id: -1,
+            seq: this.ingredients.length,
+            amount: 100,
+            food: iFood
+        };
+        this.ingredients.push(ing);
         this.calculateSums();
       }
   }
@@ -35,11 +42,11 @@ export class IngredientsComponent implements OnInit {
     this.carbTotal = 0;
     this.fatTotal = 0;
 
-    this.ingredients.forEach((ing:Food) => {
-        this.calTotal += ing.kcal * (ing.qty/100);
-        this.protTotal += ing.protein * (ing.qty/100) ;
-        this.carbTotal += ing.carbohydrate * (ing.qty/100);
-        this.fatTotal += ing.fat * (ing.qty/100);
+    this.ingredients.forEach((ing:Ingredient) => {
+        this.calTotal += ing.food.kcal * (ing.amount/100);
+        this.protTotal += ing.food.protein * (ing.amount/100) ;
+        this.carbTotal += ing.food.carbohydrate * (ing.amount/100);
+        this.fatTotal += ing.food.fat * (ing.amount/100);
     });
   }
 

@@ -25,7 +25,6 @@ export class FoodsService {
 
     return this.http.get<Food[]>(this.baseUrl+'/foods',options)
       .pipe(
-        tap(foods => foods.forEach(food => food.qty = 100)),
         catchError(this.handleError('getHeroes', []))
       );
   }
