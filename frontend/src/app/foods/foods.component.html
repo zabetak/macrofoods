@@ -1,5 +1,5 @@
+<app-image-upload></app-image-upload>
 <app-ingredients [food]="selectedFood"></app-ingredients>
-<h4>Food search</h4>
 <input #searchBox id="search-box" (keyup)="search(searchBox.value)" />
 <div>
   <div *ngFor="let food of foods | async" (click)="onSelect(food)">

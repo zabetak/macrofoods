@@ -7,13 +7,15 @@ import { AppComponent } from './app.component';
 import { FoodsComponent } from './foods/foods.component';
 import { FoodsService } from './foods.service';
 import { IngredientsComponent } from './ingredients/ingredients.component';
+import { ImageUploadComponent } from './image-upload/image-upload.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     FoodsComponent,
-    IngredientsComponent
+    IngredientsComponent,
+    ImageUploadComponent
   ],
   imports: [
     BrowserModule,
