@@ -29,4 +29,20 @@ export class IngredientsComponent implements OnInit {
     this.groups.push(new IngredientGroup());
   }
 
+  deleteGroup(iGroup:IngredientGroup){
+    for(let i = 0; i < this.groups.length; i++){
+      if ( this.groups[i] === iGroup) {
+        this.groups.splice(i, 1);
+      }
+    }
+  }
+
+  deleteIngredient(gname:string,iFood:Food){
+    this.groups.forEach(group => {
+      if(group.name == gname){
+        group.delete(iFood);
+      }
+    });
+  }
+
 }

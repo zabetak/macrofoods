@@ -22,6 +22,15 @@ export class IngredientGroup {
     this.calculateSums();
   }
 
+  delete(iFood: Food){
+    for(let i = 0; i < this.ingredients.length; i++){
+      if ( this.ingredients[i].food === iFood) {
+        this.ingredients.splice(i, 1);
+        this.calculateSums();
+      }
+    }
+  }
+
   calculateSums(): void {
     this.calTotal = 0;
     this.protTotal = 0;
