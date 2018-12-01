@@ -17,6 +17,7 @@ export class FoodsComponent implements OnInit {
   @Output() selectedFood: EventEmitter<Food> = new EventEmitter<Food>();
 
   private searchTerms = new Subject<string>();
+  searchValue: string;
 
   constructor(private foodService: FoodsService) { }
 
@@ -39,6 +40,8 @@ export class FoodsComponent implements OnInit {
 
   onSelect(food: Food): void {
     this.selectedFood.emit(food);
+    this.searchValue = '';
+    this.searchTerms.next('');
   }
 
 }

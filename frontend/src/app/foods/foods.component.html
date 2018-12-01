@@ -1,4 +1,4 @@
-<input #searchBox id="search-box" (keyup)="search(searchBox.value)" />
+<input #searchBox id="search-box" (keyup)="search(searchBox.value)" [(ngModel)]="searchValue"/>
 <div>
   <div *ngFor="let food of foods | async" (click)="onSelect(food)">
     <div><span>{{food.description}}</span> <span>({{food.category}})</span></div>
