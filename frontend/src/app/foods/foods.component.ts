@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Food } from '../food';
 import { FoodsService } from '../foods.service';
-import { Observable } from 'rxjs/Observable';
-import { Subject }    from 'rxjs/Subject';
+import { Observable, Subject } from 'rxjs';
+import { of } from 'rxjs/observable/of';
 import {
    debounceTime, distinctUntilChanged, switchMap
  } from 'rxjs/operators';
@@ -14,7 +14,7 @@ import {
 })
 export class FoodsComponent implements OnInit {
   foods: Observable<Food[]>;
-  selectedFood: Food;
+  @Output() selectedFood: EventEmitter<Food> = new EventEmitter<Food>();
 
   private searchTerms = new Subject<string>();
 
@@ -38,7 +38,7 @@ export class FoodsComponent implements OnInit {
   }
 
   onSelect(food: Food): void {
-      this.selectedFood = food;
+    this.selectedFood.emit(food);
   }
 
 }

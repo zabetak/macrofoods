@@ -1,5 +1,3 @@
-<app-image-upload></app-image-upload>
-<app-ingredients [food]="selectedFood"></app-ingredients>
 <input #searchBox id="search-box" (keyup)="search(searchBox.value)" />
 <div>
   <div *ngFor="let food of foods | async" (click)="onSelect(food)">
@@ -12,4 +10,3 @@
     </ul>
   </div>
 </div>
-<app-steps></app-steps>

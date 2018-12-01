@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Ingredient } from '../ingredient';
 import { Food } from '../food';
 import { IngredientGroup } from '../ingredient-group';
@@ -18,10 +18,9 @@ export class IngredientsComponent implements OnInit {
   ngOnInit() {
   }
 
-  @Input()
-  set food(iFood: Food) {
+  addFood(iGroup:IngredientGroup,iFood: Food) {
       if(iFood != null){
-        this.groups[this.groups.length-1].add(iFood);
+        iGroup.add(iFood);
       }
   }
 

@@ -1,4 +1,4 @@
-<h3>Ingredients</h3>
+<h3>Ingredients<button (click)="addGroup()">+</button></h3>
 <div *ngFor="let group of groups">
   <input [(ngModel)]="group.name"><button (click)="deleteGroup(group)">Delete</button>
   <div *ngFor="let ing of group.ingredients">
@@ -12,5 +12,5 @@
     <li>{{group.carbTotal}} <span>Carbs</span></li>
     <li>{{group.fatTotal}} <span>Fats</span></li>
   </ul>
+  <div><app-foods (selectedFood)="addFood(group,$event)"></app-foods></div>
 </div>
-<div><button (click)="addGroup()">Add group</button></div>
