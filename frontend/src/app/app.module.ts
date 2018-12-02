@@ -9,6 +9,7 @@ import { FoodsService } from './foods.service';
 import { IngredientsComponent } from './ingredients/ingredients.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { StepsComponent } from './steps/steps.component';
+import { CreateRecipeComponent } from './create-recipe/create-recipe.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { StepsComponent } from './steps/steps.component';
     FoodsComponent,
     IngredientsComponent,
     ImageUploadComponent,
-    StepsComponent
+    StepsComponent,
+    CreateRecipeComponent
   ],
   imports: [
     BrowserModule,

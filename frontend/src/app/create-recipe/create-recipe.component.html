@@ -1,0 +1,15 @@
+<h2>Create recipe</h2>
+<div><label>Title:<input [(ngModel)]="recipe.title"></label><div>
+<app-image-upload></app-image-upload>
+<div><label>Summary:<input [(ngModel)]="recipe.summary"></label></div>
+<div>
+  <label>Prep time:<input [(ngModel)]="recipe.prepTime" placeholder="10"></label>
+  <label>Cook time:<input [(ngModel)]="recipe.cookTime" placeholder="10"></label>
+</div>
+<app-ingredients></app-ingredients>
+<app-steps></app-steps>
+<div>
+  <label>Conclusion:
+    <input [(ngModel)]="recipe.conclusion">
+  </label>
+</div>
