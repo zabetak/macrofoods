@@ -6,8 +6,8 @@
   <label>Prep time:<input [(ngModel)]="recipe.prepTime" placeholder="10"></label>
   <label>Cook time:<input [(ngModel)]="recipe.cookTime" placeholder="10"></label>
 </div>
-<app-ingredients></app-ingredients>
-<app-steps></app-steps>
+<app-manage-ingredients [recipe]="recipe"></app-manage-ingredients>
+<app-manage-steps [recipe]="recipe"></app-manage-steps>
 <div>
   <label>Conclusion:
     <input [(ngModel)]="recipe.conclusion">

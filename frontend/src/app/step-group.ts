@@ -6,8 +6,8 @@ export class StepGroup {
   seq: number;
   steps: Step[] = [];
 
-  add(iStep: Step){
-    this.steps.push(iStep);
+  addNewStep(): void{
+    this.steps.push(new Step());
   }
 
   delete(iStep: Step){

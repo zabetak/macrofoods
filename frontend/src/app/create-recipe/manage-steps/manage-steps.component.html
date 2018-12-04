@@ -1,0 +1,9 @@
+<h3>Steps<button (click)="recipe.addStepGroup()">+</button></h3>
+<ol *ngFor="let group of recipe.stepGroups">
+  <input [(ngModel)]="group.name"><button (click)="recipe.deleteStepGroup(group)">Delete</button>
+  <button (click)="group.addNewStep()">Add step</button>
+  <li *ngFor="let step of group.steps">
+    <span><input [(ngModel)]="step.description"></span>
+    <button (click)="group.delete(step)">Delete</button>
+  </li>
+</ol>

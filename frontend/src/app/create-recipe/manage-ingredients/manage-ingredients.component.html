@@ -1,10 +1,10 @@
-<h3>Ingredients<button (click)="addGroup()">+</button></h3>
-<div *ngFor="let group of groups">
-  <input [(ngModel)]="group.name"><button (click)="deleteGroup(group)">Delete</button>
+<h3>Ingredients<button (click)="recipe.addGroup()">+</button></h3>
+<div *ngFor="let group of recipe.groups">
+  <input [(ngModel)]="group.name"><button (click)="recipe.deleteGroup(group)">Delete</button>
   <div *ngFor="let ing of group.ingredients">
     <span><input [(ngModel)]="ing.amount" (keyup)="group.calculateSums()">gr, </span>
     <span>{{ing.food.description}}</span>
-    <button (click)="deleteIngredient(group.name,ing.food)">Delete</button>
+    <button (click)="group.delete(ing.food)">Delete</button>
   </div>
   <ul *ngIf="group.calTotal!=0">
     <li>{{group.calTotal}} <span>Kcal</span></li>
@@ -12,5 +12,5 @@
     <li>{{group.carbTotal}} <span>Carbs</span></li>
     <li>{{group.fatTotal}} <span>Fats</span></li>
   </ul>
-  <div><app-foods (selectedFood)="addFood(group,$event)"></app-foods></div>
+  <div><app-foods (selectedFood)="group.add($event)"></app-foods></div>
 </div>

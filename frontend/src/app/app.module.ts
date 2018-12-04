@@ -6,20 +6,20 @@ import { HttpClientModule }    from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { FoodsComponent } from './foods/foods.component';
 import { FoodsService } from './foods.service';
-import { IngredientsComponent } from './ingredients/ingredients.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
-import { StepsComponent } from './steps/steps.component';
 import { CreateRecipeComponent } from './create-recipe/create-recipe.component';
+import { ManageIngredientsComponent } from './create-recipe/manage-ingredients/manage-ingredients.component';
+import { ManageStepsComponent } from './create-recipe/manage-steps/manage-steps.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     FoodsComponent,
-    IngredientsComponent,
     ImageUploadComponent,
-    StepsComponent,
-    CreateRecipeComponent
+    CreateRecipeComponent,
+    ManageIngredientsComponent,
+    ManageStepsComponent
   ],
   imports: [
     BrowserModule,
