@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 class ImageSnippet {
   constructor(public src: string, public file: File) {}
@@ -12,6 +12,8 @@ class ImageSnippet {
 export class ImageUploadComponent implements OnInit {
 
   selectedFile: ImageSnippet;
+  @Output()
+  imageUpload:EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }
 
@@ -25,7 +27,7 @@ export class ImageUploadComponent implements OnInit {
     reader.addEventListener('load', (event: any) => {
 
       this.selectedFile = new ImageSnippet(event.target.result, file);
-
+      this.imageUpload.emit(event.target.result);
       // this.imageService.uploadImage(this.selectedFile.file).subscribe(
       //   (res) => {
       //

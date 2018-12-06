@@ -10,6 +10,7 @@ export class Recipe {
   cookTime: number;
   groups: IngredientGroup[] = [];
   stepGroups: StepGroup[] = [];
+  image: string;
 
   addGroup(): void {
     this.groups.push(new IngredientGroup());
