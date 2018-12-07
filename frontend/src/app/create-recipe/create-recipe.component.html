@@ -5,6 +5,11 @@
 <div>
   <label>Prep time:<input [(ngModel)]="recipe.prepTime" placeholder="10"></label>
   <label>Cook time:<input [(ngModel)]="recipe.cookTime" placeholder="10"></label>
+  <label>Difficulty:
+    <select>
+      <option *ngFor="let opt of difficulties">{{opt.name}}</option>
+    </select>
+  </label>
 </div>
 <app-manage-ingredients [recipe]="recipe"></app-manage-ingredients>
 <app-manage-steps [recipe]="recipe"></app-manage-steps>

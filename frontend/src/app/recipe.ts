@@ -1,5 +1,7 @@
+import { Difficulty } from './difficulty';
 import { IngredientGroup } from './ingredient-group';
 import { StepGroup } from './step-group';
+
 
 export class Recipe {
   id: number;
@@ -8,6 +10,7 @@ export class Recipe {
   conclusion: string;
   prepTime: number;
   cookTime: number;
+  difficulty: Difficulty;
   groups: IngredientGroup[] = [];
   stepGroups: StepGroup[] = [];
   image: string;

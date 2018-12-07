@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Recipe } from '../recipe';
+import { DIFFICULTIES} from '../difficulty'
 
 @Component({
   selector: 'app-create-recipe',
@@ -8,7 +9,7 @@ import { Recipe } from '../recipe';
 })
 export class CreateRecipeComponent implements OnInit {
   recipe: Recipe;
-
+  difficulties = DIFFICULTIES;
   constructor() { }
 
   ngOnInit() {
