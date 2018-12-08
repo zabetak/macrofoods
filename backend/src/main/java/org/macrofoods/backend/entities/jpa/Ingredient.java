@@ -18,7 +18,7 @@ public class Ingredient {
 	@Column(nullable = false, precision = 7, scale = 3)
 	private BigDecimal amount;
 	@ManyToOne(optional = false)
-	private Weight weight;
+	private Food food;
 
 	public Ingredient() {
 	}
