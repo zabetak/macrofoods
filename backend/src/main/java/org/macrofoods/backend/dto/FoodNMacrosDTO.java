@@ -3,13 +3,45 @@ package org.macrofoods.backend.dto;
 import java.math.BigDecimal;
 
 public final class FoodNMacrosDTO {
-	private final int id;
-	private final String description;
-	private final String category;
-	private final BigDecimal kcal;
-	private final BigDecimal protein;
-	private final BigDecimal carbohydrate;
-	private final BigDecimal fat;
+	private int id;
+	private String description;
+	private String category;
+	private BigDecimal kcal;
+	private BigDecimal protein;
+	private BigDecimal carbohydrate;
+	private BigDecimal fat;
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public void setKcal(BigDecimal kcal) {
+		this.kcal = kcal;
+	}
+
+	public void setProtein(BigDecimal protein) {
+		this.protein = protein;
+	}
+
+	public void setCarbohydrate(BigDecimal carbohydrate) {
+		this.carbohydrate = carbohydrate;
+	}
+
+	public void setFat(BigDecimal fat) {
+		this.fat = fat;
+	}
+
+	public FoodNMacrosDTO() {
+
+	}
 
 	public FoodNMacrosDTO(int id, String description, String category, BigDecimal kcal, BigDecimal protein,
 			BigDecimal carb, BigDecimal fat) {
