@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Recipe } from '../recipe';
-import { DIFFICULTIES} from '../difficulty'
+import { DIFFICULTIES} from '../difficulty';
+import { RecipeService } from '../recipe.service';
 
 @Component({
   selector: 'app-create-recipe',
@@ -10,11 +11,15 @@ import { DIFFICULTIES} from '../difficulty'
 export class CreateRecipeComponent implements OnInit {
   recipe: Recipe;
   difficulties = DIFFICULTIES;
-  constructor() { }
+  constructor(private recipeService: RecipeService) { }
 
   ngOnInit() {
     this.recipe = new Recipe();
     this.recipe.title = "New recipe";
+  }
+
+  save(){
+    this.recipeService.save(this.recipe);
   }
 
 }

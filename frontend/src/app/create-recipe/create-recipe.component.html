@@ -6,8 +6,8 @@
   <label>Prep time:<input [(ngModel)]="recipe.prepTime" placeholder="10"></label>
   <label>Cook time:<input [(ngModel)]="recipe.cookTime" placeholder="10"></label>
   <label>Difficulty:
-    <select>
-      <option *ngFor="let opt of difficulties">{{opt.name}}</option>
+    <select [(ngModel)]="recipe.difficulty">
+      <option *ngFor="let opt of difficulties" value="{{opt.id}}">{{opt.name}}</option>
     </select>
   </label>
 </div>
@@ -18,3 +18,4 @@
     <input [(ngModel)]="recipe.conclusion">
   </label>
 </div>
+<button (click)="save()">Save</button>

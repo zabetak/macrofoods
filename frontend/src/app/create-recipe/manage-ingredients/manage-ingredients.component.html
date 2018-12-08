@@ -1,6 +1,6 @@
-<h3>Ingredients<button (click)="recipe.addGroup()">+</button></h3>
-<div *ngFor="let group of recipe.groups">
-  <input [(ngModel)]="group.name"><button (click)="recipe.deleteGroup(group)">Delete</button>
+<h3>Ingredients<button (click)="recipe.addIngredientGroup()">+</button></h3>
+<div *ngFor="let group of recipe.ingGroups">
+  <input [(ngModel)]="group.name"><button (click)="recipe.deleteIngredientGroup(group)">Delete</button>
   <div *ngFor="let ing of group.ingredients">
     <span><input [(ngModel)]="ing.amount" (keyup)="group.calculateSums()">gr, </span>
     <span>{{ing.food.description}}</span>

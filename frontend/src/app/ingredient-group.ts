@@ -2,9 +2,7 @@ import { Food } from './food';
 import { Ingredient } from './ingredient';
 
 export class IngredientGroup {
-  id: number;
   name: string = "Ingredients";
-  seq: number;
   ingredients: Ingredient[] = [];
   calTotal: number = 0;
   protTotal: number = 0;
@@ -13,8 +11,6 @@ export class IngredientGroup {
 
   add(iFood: Food){
     let ing: Ingredient = {
-        id: -1,
-        seq: this.ingredients.length,
         amount: 100,
         food: iFood
     };

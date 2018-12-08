@@ -6,6 +6,7 @@ import { HttpClientModule }    from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { FoodsComponent } from './foods/foods.component';
 import { FoodsService } from './foods.service';
+import { RecipeService } from './recipe.service';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { CreateRecipeComponent } from './create-recipe/create-recipe.component';
 import { ManageIngredientsComponent } from './create-recipe/manage-ingredients/manage-ingredients.component';
@@ -27,7 +28,8 @@ import { ManageStepsComponent } from './create-recipe/manage-steps/manage-steps.
     FormsModule
   ],
   providers: [
-    FoodsService
+    FoodsService,
+    RecipeService
   ],
   bootstrap: [AppComponent]
 })

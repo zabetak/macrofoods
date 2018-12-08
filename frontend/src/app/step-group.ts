@@ -1,9 +1,7 @@
 import { Step } from './step';
 
 export class StepGroup {
-  id: number;
   name: string = "Steps";
-  seq: number;
   steps: Step[] = [];
 
   addNewStep(): void{

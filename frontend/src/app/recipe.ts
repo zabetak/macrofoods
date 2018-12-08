@@ -10,19 +10,19 @@ export class Recipe {
   conclusion: string;
   prepTime: number;
   cookTime: number;
-  difficulty: Difficulty;
-  groups: IngredientGroup[] = [];
+  difficulty: number = 0;
+  ingGroups: IngredientGroup[] = [];
   stepGroups: StepGroup[] = [];
   image: string;
 
-  addGroup(): void {
-    this.groups.push(new IngredientGroup());
+  addIngredientGroup(): void {
+    this.ingGroups.push(new IngredientGroup());
   }
 
-  deleteGroup(iGroup:IngredientGroup){
-    for(let i = 0; i < this.groups.length; i++){
-      if ( this.groups[i] === iGroup) {
-        this.groups.splice(i, 1);
+  deleteIngredientGroup(iGroup:IngredientGroup){
+    for(let i = 0; i < this.ingGroups.length; i++){
+      if ( this.ingGroups[i] === iGroup) {
+        this.ingGroups.splice(i, 1);
       }
     }
   }
