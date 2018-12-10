@@ -4,14 +4,17 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 @Entity
 public class Recipe {
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recipe_generator")
+	@SequenceGenerator(name = "recipe_generator", sequenceName = "recipe_seq", allocationSize = 10)
 	private Integer id;
-	@Column(nullable = false, unique = true, length = 60)
-	private String nid;
 	@Column
 	private Integer views;
 	@Column
@@ -30,5 +33,53 @@ public class Recipe {
 	private byte[] image;
 
 	public Recipe() {
+	}
+
+	public Integer getViews() {
+		return views;
+	}
+
+	public void setViews(Integer views) {
+		this.views = views;
+	}
+
+	public Integer getLikes() {
+		return likes;
+	}
+
+	public void setLikes(Integer likes) {
+		this.likes = likes;
+	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+
+	public void setScore(Short score) {
+		this.score = score;
+	}
+
+	public void setPrepTime(Short prepTime) {
+		this.prepTime = prepTime;
+	}
+
+	public void setCookTime(Short cookTime) {
+		this.cookTime = cookTime;
+	}
+
+	public void setDifficulty(Difficulty difficulty) {
+		this.difficulty = difficulty;
+	}
+
+	public void setServings(Short servings) {
+		this.servings = servings;
+	}
+
+	public Integer getId() {
+		return id;
 	}
 }
