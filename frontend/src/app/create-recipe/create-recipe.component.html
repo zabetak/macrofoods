@@ -10,6 +10,7 @@
       <option *ngFor="let opt of difficulties" value="{{opt.id}}">{{opt.name}}</option>
     </select>
   </label>
+  <label>Servings:<input [(ngModel)]="recipe.servings"></label>
 </div>
 <app-manage-ingredients [recipe]="recipe"></app-manage-ingredients>
 <app-manage-steps [recipe]="recipe"></app-manage-steps>

@@ -36,6 +36,7 @@ public final class RecipeService {
 		eRecipe.setCookTime(recipe.getCookTime());
 		eRecipe.setPrepTime(recipe.getPrepTime());
 		eRecipe.setDifficulty(Difficulty.values()[recipe.getDifficulty()]);
+		eRecipe.setServings(recipe.getServings());
 		eRecipe.setImage(recipe.getImage().getBytes());
 		em.persist(eRecipe);
 		RecipeDescription eDescription = new RecipeDescription();

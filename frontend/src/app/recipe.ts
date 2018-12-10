@@ -11,6 +11,7 @@ export class Recipe {
   prepTime: number;
   cookTime: number;
   difficulty: number = 0;
+  servings: number = 2;
   ingGroups: IngredientGroup[] = [];
   stepGroups: StepGroup[] = [];
   image: string;

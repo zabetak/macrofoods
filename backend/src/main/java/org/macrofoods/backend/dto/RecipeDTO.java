@@ -8,6 +8,7 @@ public final class RecipeDTO {
 	private String conclusion;
 	private short prepTime;
 	private short cookTime;
+	private short servings;
 	private String image;
 	private short difficulty;
 	private List<IngredientGroupDTO> ingGroups;
@@ -83,6 +84,14 @@ public final class RecipeDTO {
 
 	public void setStepGroups(List<StepGroupDTO> stepGroup) {
 		this.stepGroups = stepGroup;
+	}
+
+	public short getServings() {
+		return servings;
+	}
+
+	public void setServings(short servings) {
+		this.servings = servings;
 	}
 
 }
