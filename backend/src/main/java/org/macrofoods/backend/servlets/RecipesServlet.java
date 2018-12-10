@@ -3,6 +3,7 @@ package org.macrofoods.backend.servlets;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import javax.persistence.EntityManager;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.macrofoods.backend.dto.RecipeDTO;
+import org.macrofoods.backend.services.RecipeService;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,7 +44,12 @@ public final class RecipesServlet extends EMServlet implements Servlet {
 					false);
 			ObjectReader reader = mapper.readerFor(RecipeDTO.class);
 			RecipeDTO recipe = reader.readValue(br);
-			response.getWriter().append(mapper.writeValueAsString(recipe));
+			EntityManager em = newEntityManager();
+			RecipeService service = new RecipeService(em);
+			Integer id = service.saveRecipe(recipe);
+			em.close();
+			response.getWriter()
+					.write("{\"operation\":\"saveRecipe\", \"status\":\"success\", \"recipeid\":\"" + id + "\"}");
 		} finally {
 			if (br != null)
 				br.close();
