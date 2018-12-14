@@ -11,6 +11,8 @@ import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { CreateRecipeComponent } from './create-recipe/create-recipe.component';
 import { ManageIngredientsComponent } from './create-recipe/manage-ingredients/manage-ingredients.component';
 import { ManageStepsComponent } from './create-recipe/manage-steps/manage-steps.component';
+import { AppRoutingModule } from './/app-routing.module';
+import { TopRecipesComponent } from './top-recipes/top-recipes.component';
 
 
 @NgModule({
@@ -20,12 +22,14 @@ import { ManageStepsComponent } from './create-recipe/manage-steps/manage-steps.
     ImageUploadComponent,
     CreateRecipeComponent,
     ManageIngredientsComponent,
-    ManageStepsComponent
+    ManageStepsComponent,
+    TopRecipesComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule
   ],
   providers: [
     FoodsService,
