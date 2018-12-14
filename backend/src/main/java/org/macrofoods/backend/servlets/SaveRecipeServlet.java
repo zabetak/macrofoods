@@ -18,15 +18,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 
 /**
- * Servlet implementation class RecipesServlet
  */
-public final class RecipesServlet extends EMServlet implements Servlet {
+public final class SaveRecipeServlet extends EMServlet implements Servlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Default constructor.
 	 */
-	public RecipesServlet() {
+	public SaveRecipeServlet() {
 		super();
 	}
 
@@ -37,6 +36,7 @@ public final class RecipesServlet extends EMServlet implements Servlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		BufferedReader br = null;
+		EntityManager em = null;
 
 		try {
 			br = request.getReader();
@@ -44,13 +44,14 @@ public final class RecipesServlet extends EMServlet implements Servlet {
 					false);
 			ObjectReader reader = mapper.readerFor(RecipeDTO.class);
 			RecipeDTO recipe = reader.readValue(br);
-			EntityManager em = newEntityManager();
+			em = newEntityManager();
 			RecipeService service = new RecipeService(em);
 			Integer id = service.saveRecipe(recipe);
-			em.close();
 			response.getWriter()
 					.write("{\"operation\":\"saveRecipe\", \"status\":\"success\", \"recipeid\":\"" + id + "\"}");
 		} finally {
+			if (em != null)
+				em.close();
 			if (br != null)
 				br.close();
 		}

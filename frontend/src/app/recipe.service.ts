@@ -17,7 +17,7 @@ export class RecipeService {
   constructor(private http: HttpClient) { }
 
   save(recipe: Recipe){
-    this.http.post<Recipe>(this.baseUrl+'/recipes', recipe, httpOptions)
+    this.http.post<Recipe>(this.baseUrl+'/recipes/save', recipe, httpOptions)
       .pipe(
         catchError(
           (error: any, caught:Observable<Recipe>) => {

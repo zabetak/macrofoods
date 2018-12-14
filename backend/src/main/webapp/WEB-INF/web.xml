@@ -20,10 +20,10 @@
 		<servlet-class>org.macrofoods.backend.servlets.FoodsServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>RecipesServlet</servlet-name>
-		<display-name>RecipesServlet</display-name>
+		<servlet-name>SaveRecipeServlet</servlet-name>
+		<display-name>SaveRecipeServlet</display-name>
 		<description></description>
-		<servlet-class>org.macrofoods.backend.servlets.RecipesServlet</servlet-class>
+		<servlet-class>org.macrofoods.backend.servlets.SaveRecipeServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>TestTransaction</servlet-name>
@@ -34,8 +34,8 @@
 		<url-pattern>/v1/foods</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>RecipesServlet</servlet-name>
-		<url-pattern>/v1/recipes</url-pattern>
+		<servlet-name>SaveRecipeServlet</servlet-name>
+		<url-pattern>/v1/recipes/save</url-pattern>
 	</servlet-mapping>
 	<resource-ref>
 		<description>DB Connection</description>
