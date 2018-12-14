@@ -1,7 +1,7 @@
 import { Difficulty } from './difficulty';
 import { IngredientGroup } from './ingredient-group';
 import { StepGroup } from './step-group';
-
+import { Category } from './category';
 
 export class Recipe {
   id: number;
@@ -15,6 +15,7 @@ export class Recipe {
   ingGroups: IngredientGroup[] = [];
   stepGroups: StepGroup[] = [];
   image: string;
+  categories: Category[] = [];
 
   addIngredientGroup(): void {
     this.ingGroups.push(new IngredientGroup());
