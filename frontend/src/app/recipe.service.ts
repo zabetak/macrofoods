@@ -26,4 +26,20 @@ export class RecipeService {
           })
     ).subscribe( u => {console.log(u);});
   }
+
+  topRecipes(): Observable<Recipe[]> {
+    // Add safe, URL encoded search parameter
+    const options = {};
+
+    return this.http.get<Recipe[]>(this.baseUrl+'/recipes/top',options)
+      .pipe(
+        tap(recipes =>
+          //Only for test purposes
+          recipes.forEach(r => r.categories = [{id:1,name:"High-protein"}])),
+        catchError((error: any, caught:Observable<Recipe[]>) => {
+          console.log(error);
+          return of([]);
+        })
+      );
+  }
 }

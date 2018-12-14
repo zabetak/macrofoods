@@ -1,0 +1,34 @@
+.fbs-recipe-list {
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+.fbs-recipe-preview-container {
+  width: 100%;
+}
+
+.fbs-recipe-preview img {
+  width: 100%;
+  height: 35%;
+}
+
+.fbs-recipe-overview {
+  font-size: 13px;
+}
+
+.fbs-recipe-macros{
+  font-size: 10px;
+}
+
+.fbs-recipe-categories{
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+@media (min-width: 718px){
+  .fbs-recipe-preview {
+      width: 50%;
+    }
+}

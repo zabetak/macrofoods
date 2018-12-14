@@ -1,0 +1,23 @@
+<h2>Top Recipes</h2>
+<div class="fbs-recipe-list">
+  <div class="fbs-recipe-preview" *ngFor="let recipe of recipes ">
+    <div class="fbs-recipe-preview-container">
+      <a><img src="{{recipe.image}}"></a>
+      <div class="fbs-recipe-overview">
+        <h3 class="fbs-recipe-title"><a>{{recipe.title}}</a></h3>
+        <div>{{recipe.summary}}</div>
+        <div class="fbs-recipe-macros">
+          <span>Kcal</span> <span>500</span>
+          <span>Protein</span> <span>100G</span>
+          <span>Carbs</span> <span>50G</span>
+          <span>Fat</span> <span>10G</span>
+        </div>
+        <div class="fbs-recipe-categories">
+          <span *ngFor="let category of recipe.categories">
+            {{category.name}}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
