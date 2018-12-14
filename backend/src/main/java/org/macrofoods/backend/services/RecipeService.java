@@ -1,8 +1,12 @@
 package org.macrofoods.backend.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 
 import org.macrofoods.backend.dto.IngredientDTO;
 import org.macrofoods.backend.dto.IngredientGroupDTO;
@@ -100,5 +104,36 @@ public final class RecipeService {
 
 		em.getTransaction().commit();
 		return eRecipe.getId();
+	}
+
+	public List<RecipeDTO> topRecipes() {
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<Recipe> q = builder.createQuery(Recipe.class);
+		q.from(Recipe.class);
+		TypedQuery<Recipe> query = em.createQuery(q);
+		List<RecipeDTO> recipes = new ArrayList<RecipeDTO>();
+		for (Recipe eRecipe : query.getResultList()) {
+			RecipeDTO sample = new RecipeDTO();
+			Short cookTime = eRecipe.getCookTime();
+			if (cookTime != null)
+				sample.setCookTime(cookTime);
+			Short prepTime = eRecipe.getPrepTime();
+			if (prepTime != null)
+				sample.setPrepTime(prepTime);
+			byte[] img = eRecipe.getImage();
+			if (img != null)
+				sample.setImage(new String(img));
+			Short servings = eRecipe.getServings();
+			if (servings != null)
+				sample.setServings(servings);
+			for (RecipeDescription rDescription : eRecipe.getDescriptions())
+				if (rDescription.getLangCode().equals(LangCode.US)) {
+					sample.setConclusion(rDescription.getConclusion());
+					sample.setTitle(rDescription.getTitle());
+					sample.setSummary(rDescription.getSummary());
+				}
+			recipes.add(sample);
+		}
+		return recipes;
 	}
 }

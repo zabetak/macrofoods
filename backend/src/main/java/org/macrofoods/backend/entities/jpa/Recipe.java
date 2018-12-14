@@ -1,5 +1,7 @@
 package org.macrofoods.backend.entities.jpa;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -7,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 @Entity
@@ -31,6 +34,8 @@ public class Recipe {
 	private Short servings;
 	@Column(nullable = false)
 	private byte[] image;
+	@OneToMany(mappedBy = "recipe", targetEntity = RecipeDescription.class)
+	private List<RecipeDescription> descriptions;
 
 	public Recipe() {
 	}
@@ -82,4 +87,29 @@ public class Recipe {
 	public Integer getId() {
 		return id;
 	}
+
+	public Short getScore() {
+		return score;
+	}
+
+	public Short getPrepTime() {
+		return prepTime;
+	}
+
+	public Short getCookTime() {
+		return cookTime;
+	}
+
+	public Difficulty getDifficulty() {
+		return difficulty;
+	}
+
+	public Short getServings() {
+		return servings;
+	}
+
+	public List<RecipeDescription> getDescriptions() {
+		return descriptions;
+	}
+
 }
