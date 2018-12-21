@@ -9,6 +9,13 @@ export class IngredientGroup {
   carbTotal: number = 0;
   fatTotal: number = 0;
 
+  static fromJSON(data:any):IngredientGroup {
+    let group : IngredientGroup = new IngredientGroup();
+    group.ingredients = data.ingredients.map(d => Object.assign(new Ingredient(), d));
+    group.calculateSums();
+    return group;
+  }
+
   add(iFood: Food){
     let ing: Ingredient = {
         amount: 100,

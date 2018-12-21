@@ -2,6 +2,7 @@ import { Difficulty } from './difficulty';
 import { IngredientGroup } from './ingredient-group';
 import { StepGroup } from './step-group';
 import { Category } from './category';
+import { Macros } from './macros';
 
 export class Recipe {
   id: number;
@@ -16,6 +17,34 @@ export class Recipe {
   stepGroups: StepGroup[] = [];
   image: string;
   categories: Category[] = [];
+  macros: Macros;
+
+  static fromJSON(data: any): Recipe {
+    let r: Recipe = new Recipe();
+    r.id = data.id;
+    r.title = data.title;
+    r.summary = data.summary;
+    r.conclusion = data.conclusion;
+    r.prepTime = data.prepTime;
+    r.cookTime = data.cookTime;
+    r.difficulty = data.difficulty;
+    r.servings = data.servings;
+    if(data.ingGroups != null)
+      r.ingGroups = data.ingGroups.map(d => IngredientGroup.fromJSON(d));
+    r.stepGroups = data.stepGroups;
+    r.image = data.image;
+    if(data.categories != null)
+      r.categories = data.categories.map(d => Object.assign(new Category(), d));
+    else {
+      // Only for test purposes
+      let c: Category = new Category();
+      c.id = 1;
+      c.name = 'High-Protein';
+      r.categories.push(c);
+    }
+    r.macros = r.computeMacros();
+    return r;
+  }
 
   addIngredientGroup(): void {
     this.ingGroups.push(new IngredientGroup());
@@ -41,4 +70,14 @@ export class Recipe {
     }
   }
 
+  private computeMacros(): Macros {
+    let m: Macros = new Macros();
+    this.ingGroups.forEach(ig => {
+      m.calories += ig.calTotal;
+      m.protein += ig.protTotal;
+      m.carbs += ig.carbTotal;
+      m.fat += ig.fatTotal;
+    })
+    return m;
+  }
 }

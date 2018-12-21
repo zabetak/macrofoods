@@ -33,9 +33,7 @@ export class RecipeService {
 
     return this.http.get<Recipe[]>(this.baseUrl+'/recipes/top',options)
       .pipe(
-        tap(recipes =>
-          //Only for test purposes
-          recipes.forEach(r => r.categories = [{id:1,name:"High-protein"}])),
+        map(recipes => recipes.map(data => Recipe.fromJSON(data))),
         catchError((error: any, caught:Observable<Recipe[]>) => {
           console.log(error);
           return of([]);
