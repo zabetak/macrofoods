@@ -11,7 +11,6 @@ export class IngredientGroup {
     let group : IngredientGroup = new IngredientGroup();
     group.ingredients = data.ingredients.map(d => Ingredient.fromJSON(d));
     group.calculateSums();
-    console.log(group);
     return group;
   }
 
