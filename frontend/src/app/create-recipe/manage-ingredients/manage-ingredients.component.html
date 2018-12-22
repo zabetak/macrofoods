@@ -6,11 +6,11 @@
     <span>{{ing.food.description}}</span>
     <button (click)="group.delete(ing.food)">Delete</button>
   </div>
-  <ul *ngIf="group.calTotal!=0">
-    <li>{{group.calTotal}} <span>Kcal</span></li>
-    <li>{{group.protTotal}} <span>Proteins</span></li>
-    <li>{{group.carbTotal}} <span>Carbs</span></li>
-    <li>{{group.fatTotal}} <span>Fats</span></li>
+  <ul *ngIf="group.macros">
+    <li>{{group.macros.calories}} <span>Kcal</span></li>
+    <li>{{group.macros.protein}} <span>Proteins</span></li>
+    <li>{{group.macros.carbs}} <span>Carbs</span></li>
+    <li>{{group.macros.fat}} <span>Fats</span></li>
   </ul>
   <div><app-foods (selectedFood)="group.add($event)"></app-foods></div>
 </div>

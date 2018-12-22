@@ -25,6 +25,7 @@ export class FoodsService {
 
     return this.http.get<Food[]>(this.baseUrl+'/foods',options)
       .pipe(
+        map(foods => foods.map(data => Food.fromJSON(data))),
         catchError(this.handleError('getHeroes', []))
       );
   }

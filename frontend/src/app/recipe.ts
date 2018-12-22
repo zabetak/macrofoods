@@ -73,10 +73,7 @@ export class Recipe {
   private computeMacros(): Macros {
     let m: Macros = new Macros();
     this.ingGroups.forEach(ig => {
-      m.calories += ig.calTotal;
-      m.protein += ig.protTotal;
-      m.carbs += ig.carbTotal;
-      m.fat += ig.fatTotal;
+      m = m.add(ig.macros);
     })
     return m;
   }

@@ -13,7 +13,8 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 
-import org.macrofoods.backend.dto.FoodNMacrosDTO;
+import org.macrofoods.backend.dto.FoodDTO;
+import org.macrofoods.backend.dto.MacrosDTO;
 import org.macrofoods.backend.entities.jpa.Food;
 import org.macrofoods.backend.entities.jpa.FoodDescription;
 import org.macrofoods.backend.entities.jpa.FoodDescription_;
@@ -35,7 +36,7 @@ public final class FoodsService {
 		this.em = entityManager;
 	}
 
-	public List<FoodNMacrosDTO> findFoods(String descriptionPattern) {
+	public List<FoodDTO> findFoods(String descriptionPattern) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Tuple> q = builder.createTupleQuery();
 		Root<Food> food = q.from(Food.class);
@@ -70,16 +71,17 @@ public final class FoodsService {
 						.otherwise(builder.literal(0)).as(BigDecimal.class)));
 
 		TypedQuery<Tuple> query = em.createQuery(q);
-		List<FoodNMacrosDTO> results = new ArrayList<FoodNMacrosDTO>();
+		List<FoodDTO> results = new ArrayList<FoodDTO>();
 		for (Tuple t : query.getResultList()) {
 			Integer id = t.get(0, Integer.class);
 			String desc = t.get(1, String.class);
 			String category = t.get(2, String.class);
-			BigDecimal kcal = t.get(3, BigDecimal.class);
-			BigDecimal prot = t.get(4, BigDecimal.class);
-			BigDecimal carb = t.get(5, BigDecimal.class);
-			BigDecimal fat = t.get(6, BigDecimal.class);
-			results.add(new FoodNMacrosDTO(id, desc, category, kcal, prot, carb, fat));
+			MacrosDTO macros = new MacrosDTO();
+			macros.setCalories(t.get(3, BigDecimal.class));
+			macros.setProtein(t.get(4, BigDecimal.class));
+			macros.setCarbs(t.get(5, BigDecimal.class));
+			macros.setFat(t.get(6, BigDecimal.class));
+			results.add(new FoodDTO(id, desc, category, macros));
 		}
 		return results;
 	}

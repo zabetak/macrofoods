@@ -3,10 +3,10 @@
   <div *ngFor="let food of foods | async" (click)="onSelect(food)">
     <div><span>{{food.description}}</span> <span>({{food.category}})</span></div>
     <ul>
-      <li>{{food.kcal}} <span>Kcal</span></li>
-      <li>{{food.protein}} <span>Proteins</span></li>
-      <li>{{food.carbohydrate}} <span>Carbs</span></li>
-      <li>{{food.fat}} <span>Fats</span></li>
+      <li>{{food.macros.calories}} <span>Kcal</span></li>
+      <li>{{food.macros.protein}} <span>Proteins</span></li>
+      <li>{{food.macros.carbs}} <span>Carbs</span></li>
+      <li>{{food.macros.fat}} <span>Fats</span></li>
     </ul>
   </div>
 </div>

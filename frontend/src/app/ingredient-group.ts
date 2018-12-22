@@ -1,26 +1,24 @@
 import { Food } from './food';
 import { Ingredient } from './ingredient';
+import { Macros } from './macros';
 
 export class IngredientGroup {
   name: string = "Ingredients";
   ingredients: Ingredient[] = [];
-  calTotal: number = 0;
-  protTotal: number = 0;
-  carbTotal: number = 0;
-  fatTotal: number = 0;
+  macros: Macros;
 
   static fromJSON(data:any):IngredientGroup {
     let group : IngredientGroup = new IngredientGroup();
-    group.ingredients = data.ingredients.map(d => Object.assign(new Ingredient(), d));
+    group.ingredients = data.ingredients.map(d => Ingredient.fromJSON(d));
     group.calculateSums();
+    console.log(group);
     return group;
   }
 
   add(iFood: Food){
-    let ing: Ingredient = {
-        amount: 100,
-        food: iFood
-    };
+    let ing: Ingredient = new Ingredient();
+    ing.amount = 100;
+    ing.food = iFood;
     this.ingredients.push(ing);
     this.calculateSums();
   }
@@ -35,16 +33,10 @@ export class IngredientGroup {
   }
 
   calculateSums(): void {
-    this.calTotal = 0;
-    this.protTotal = 0;
-    this.carbTotal = 0;
-    this.fatTotal = 0;
-
+    let m: Macros = new Macros();
     this.ingredients.forEach((ing:Ingredient) => {
-        this.calTotal += ing.food.kcal * (ing.amount/100);
-        this.protTotal += ing.food.protein * (ing.amount/100) ;
-        this.carbTotal += ing.food.carbohydrate * (ing.amount/100);
-        this.fatTotal += ing.food.fat * (ing.amount/100);
+      m = m.add(ing.macros());
     });
+    this.macros = m;
   }
 }

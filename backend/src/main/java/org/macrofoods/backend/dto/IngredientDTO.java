@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public final class IngredientDTO {
 	private BigDecimal amount;
-	private FoodNMacrosDTO food;
+	private FoodDTO food;
 
 	public BigDecimal getAmount() {
 		return amount;
@@ -14,11 +14,11 @@ public final class IngredientDTO {
 		this.amount = amount;
 	}
 
-	public FoodNMacrosDTO getFood() {
+	public FoodDTO getFood() {
 		return food;
 	}
 
-	public void setFood(FoodNMacrosDTO food) {
+	public void setFood(FoodDTO food) {
 		this.food = food;
 	}
 }
