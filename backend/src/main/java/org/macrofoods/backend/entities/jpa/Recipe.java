@@ -36,6 +36,8 @@ public class Recipe {
 	private byte[] image;
 	@OneToMany(mappedBy = "recipe", targetEntity = RecipeDescription.class)
 	private List<RecipeDescription> descriptions;
+	@OneToMany(mappedBy = "recipe", targetEntity = IngredientGroup.class)
+	private List<IngredientGroup> ingGroups;
 
 	public Recipe() {
 	}
@@ -110,6 +112,10 @@ public class Recipe {
 
 	public List<RecipeDescription> getDescriptions() {
 		return descriptions;
+	}
+
+	public List<IngredientGroup> getIngGroups() {
+		return ingGroups;
 	}
 
 }

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.macrofoods.backend.entities.jpa.LangCode;
 import org.macrofoods.backend.services.FoodsService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,7 +41,7 @@ public class FoodsServlet extends EMServlet {
 		String likeExpPattern = "%" + longdesc.toUpperCase().replace(" ", "%") + "%";
 		response.setContentType("application/json");
 		EntityManager em = newEntityManager();
-		FoodsService service = new FoodsService(em);
+		FoodsService service = new FoodsService(em, LangCode.EN);
 		ObjectMapper mapper = new ObjectMapper();
 		response.getWriter()
 				.append(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(service.findFoods(likeExpPattern)));

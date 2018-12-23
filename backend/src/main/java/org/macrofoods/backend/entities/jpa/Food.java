@@ -37,4 +37,44 @@ public class Food {
 	public Food() {
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public FoodGroup getFdGroup() {
+		return fdGroup;
+	}
+
+	public boolean isSurvey() {
+		return isSurvey;
+	}
+
+	public short getRefuse() {
+		return refuse;
+	}
+
+	public BigDecimal getnFactor() {
+		return nFactor;
+	}
+
+	public BigDecimal getProFactor() {
+		return proFactor;
+	}
+
+	public BigDecimal getFatFactor() {
+		return fatFactor;
+	}
+
+	public BigDecimal getChoFactor() {
+		return choFactor;
+	}
+
+	public List<FoodDescription> getDescriptions() {
+		return descriptions;
+	}
+
+	public List<NutrientData> getData() {
+		return data;
+	}
+
 }

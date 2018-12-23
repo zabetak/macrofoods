@@ -1,11 +1,14 @@
 package org.macrofoods.backend.entities.jpa;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 @Entity
@@ -18,6 +21,10 @@ public class IngredientGroup {
 	private Short seq;
 	@ManyToOne(optional = false)
 	private Recipe recipe;
+	@OneToMany(mappedBy = "group", targetEntity = Ingredient.class)
+	private List<Ingredient> ingredients;
+	@OneToMany(mappedBy = "group", targetEntity = IngredientGroupDescription.class)
+	private List<IngredientGroupDescription> descriptions;
 
 	public IngredientGroup() {
 	}
@@ -36,6 +43,18 @@ public class IngredientGroup {
 
 	public void setRecipe(Recipe recipe) {
 		this.recipe = recipe;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public List<Ingredient> getIngredients() {
+		return ingredients;
+	}
+
+	public List<IngredientGroupDescription> getDescriptions() {
+		return descriptions;
 	}
 
 }

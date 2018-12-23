@@ -35,6 +35,7 @@ public final class RecipeService {
 	}
 
 	public int saveRecipe(RecipeDTO recipe) {
+		LangCode lCode = LangCode.US;
 		em.getTransaction().begin();
 		Recipe eRecipe = new Recipe();
 		eRecipe.setCookTime(recipe.getCookTime());
@@ -48,7 +49,7 @@ public final class RecipeService {
 		eDescription.setTitle(recipe.getTitle());
 		eDescription.setSummary(recipe.getSummary());
 		eDescription.setConclusion(recipe.getConclusion());
-		eDescription.setLangCode(LangCode.US);
+		eDescription.setLangCode(lCode);
 		em.persist(eDescription);
 		List<IngredientGroupDTO> ingGroups = recipe.getIngGroups();
 		for (short i = 0; i < ingGroups.size(); i++) {
@@ -59,7 +60,7 @@ public final class RecipeService {
 			em.persist(eiGroup);
 			IngredientGroupDescription eigDescription = new IngredientGroupDescription();
 			eigDescription.setGroup(eiGroup);
-			eigDescription.setLangCode(LangCode.US);
+			eigDescription.setLangCode(lCode);
 			eigDescription.setTitle(groupName);
 			em.persist(eigDescription);
 			List<IngredientDTO> ingredients = ingGroups.get(i).getIngredients();
@@ -84,7 +85,7 @@ public final class RecipeService {
 			em.persist(eGroup);
 			StepGroupDescription eigDescription = new StepGroupDescription();
 			eigDescription.setGroup(eGroup);
-			eigDescription.setLangCode(LangCode.US);
+			eigDescription.setLangCode(lCode);
 			eigDescription.setTitle(groupName);
 			em.persist(eigDescription);
 			List<StepDTO> stepsDTO = stepGroupsDTO.get(i).getSteps();
@@ -96,7 +97,7 @@ public final class RecipeService {
 				em.persist(eStep);
 				StepDescription esDescription = new StepDescription();
 				esDescription.setStep(eStep);
-				esDescription.setLangCode(LangCode.US);
+				esDescription.setLangCode(lCode);
 				esDescription.setDescription(stepName);
 				em.persist(esDescription);
 			}
@@ -107,6 +108,9 @@ public final class RecipeService {
 	}
 
 	public List<RecipeDTO> topRecipes() {
+		LangCode lCode = LangCode.US;
+		// TODO Unify langcodes US/EN
+		FoodsService fs = new FoodsService(em, LangCode.EN);
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Recipe> q = builder.createQuery(Recipe.class);
 		q.from(Recipe.class);
@@ -127,11 +131,29 @@ public final class RecipeService {
 			if (servings != null)
 				sample.setServings(servings);
 			for (RecipeDescription rDescription : eRecipe.getDescriptions())
-				if (rDescription.getLangCode().equals(LangCode.US)) {
+				if (rDescription.getLangCode().equals(lCode)) {
 					sample.setConclusion(rDescription.getConclusion());
 					sample.setTitle(rDescription.getTitle());
 					sample.setSummary(rDescription.getSummary());
 				}
+			List<IngredientGroupDTO> ingGroups = new ArrayList<IngredientGroupDTO>();
+			for (IngredientGroup rGroup : eRecipe.getIngGroups()) {
+				IngredientGroupDTO iGroupDTO = new IngredientGroupDTO();
+				for (IngredientGroupDescription rGroupDescription : rGroup.getDescriptions())
+					if (rGroupDescription.getLangCode().equals(lCode))
+						iGroupDTO.setName(rGroupDescription.getTitle());
+				List<IngredientDTO> ingredientDTOs = new ArrayList<IngredientDTO>();
+				for (Ingredient ing : rGroup.getIngredients()) {
+					IngredientDTO ingDTO = new IngredientDTO();
+					ingDTO.setAmount(ing.getAmount());
+					Food food = ing.getFood();
+					ingDTO.setFood(fs.findFood(food.getId()));
+					ingredientDTOs.add(ingDTO);
+				}
+				iGroupDTO.setIngredients(ingredientDTOs);
+				ingGroups.add(iGroupDTO);
+			}
+			sample.setIngGroups(ingGroups);
 			recipes.add(sample);
 		}
 		return recipes;

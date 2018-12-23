@@ -31,4 +31,41 @@ public class FoodDescription {
 
 	public FoodDescription() {
 	}
+
+	public int getId() {
+		return id;
+	}
+
+	public Food getFood() {
+		return food;
+	}
+
+	public String getLongDesc() {
+		return longDesc;
+	}
+
+	public String getShortDesc() {
+		return shortDesc;
+	}
+
+	public String getCommonName() {
+		return commonName;
+	}
+
+	public String getManuName() {
+		return manuName;
+	}
+
+	public String getRefDesc() {
+		return refDesc;
+	}
+
+	public String getSciName() {
+		return sciName;
+	}
+
+	public String getLangCode() {
+		return langCode;
+	}
+
 }
