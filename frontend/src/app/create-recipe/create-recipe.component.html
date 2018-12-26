@@ -19,4 +19,9 @@
     <input [(ngModel)]="recipe.conclusion">
   </label>
 </div>
+<div>
+  <h3>Tags</h3>
+  <div *ngFor="let tag of recipe.tags">{{tag.description}}<button (click)="recipe.deleteTag(tag)">-</button></div>
+  <div><app-search-tags (selectedTag)="recipe.addTag($event)"></app-search-tags></div>
+</div>
 <button (click)="save()">Save</button>

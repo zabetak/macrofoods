@@ -1,0 +1,7 @@
+<input #searchBox id="search-tags-box" (keyup)="search(searchBox.value)" [(ngModel)]="searchValue"/>
+<button (click)="newTag(searchBox.value)">New</button>
+<div>
+  <div *ngFor="let tag of tags | async" (click)="onSelect(tag)">
+    {{tag.description}}
+  </div>
+</div>

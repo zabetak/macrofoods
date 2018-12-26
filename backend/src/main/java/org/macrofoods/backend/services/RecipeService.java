@@ -13,6 +13,7 @@ import org.macrofoods.backend.dto.IngredientGroupDTO;
 import org.macrofoods.backend.dto.RecipeDTO;
 import org.macrofoods.backend.dto.StepDTO;
 import org.macrofoods.backend.dto.StepGroupDTO;
+import org.macrofoods.backend.dto.TagDTO;
 import org.macrofoods.backend.entities.jpa.Difficulty;
 import org.macrofoods.backend.entities.jpa.Food;
 import org.macrofoods.backend.entities.jpa.Ingredient;
@@ -25,6 +26,8 @@ import org.macrofoods.backend.entities.jpa.Step;
 import org.macrofoods.backend.entities.jpa.StepDescription;
 import org.macrofoods.backend.entities.jpa.StepGroup;
 import org.macrofoods.backend.entities.jpa.StepGroupDescription;
+import org.macrofoods.backend.entities.jpa.Tag;
+import org.macrofoods.backend.entities.jpa.TagDescription;
 
 public final class RecipeService {
 
@@ -103,6 +106,29 @@ public final class RecipeService {
 			}
 		}
 
+		for (TagDTO tagDTO : recipe.getTags()) {
+			Tag tag;
+			if (tagDTO.getId() == -1) {
+				tag = new Tag();
+				em.persist(tag);
+			} else
+				tag = em.find(Tag.class, tagDTO.getId());
+			boolean hasDesc = false;
+			for (TagDescription tg : tag.getDescriptions()) {
+				if (tg.getName().equals(tagDTO.getDescription())) {
+					hasDesc = true;
+					break;
+				}
+			}
+			if (!hasDesc) {
+				TagDescription tagDesc = new TagDescription();
+				tagDesc.setLangCode(lCode);
+				tagDesc.setName(tagDTO.getDescription());
+				tagDesc.setTag(tag);
+				em.persist(tagDesc);
+			}
+			eRecipe.getTags().add(tag);
+		}
 		em.getTransaction().commit();
 		return eRecipe.getId();
 	}
@@ -154,6 +180,17 @@ public final class RecipeService {
 				ingGroups.add(iGroupDTO);
 			}
 			sample.setIngGroups(ingGroups);
+			List<TagDTO> tagDTOs = new ArrayList<TagDTO>();
+			for (Tag tag : eRecipe.getTags()) {
+				TagDTO tg = new TagDTO();
+				for (TagDescription tgDesc : tag.getDescriptions()) {
+					if (tgDesc.getLangCode().equals(lCode)) {
+						tg.setDescription(tgDesc.getName());
+						tagDTOs.add(tg);
+					}
+				}
+			}
+			sample.setTags(tagDTOs);
 			recipes.add(sample);
 		}
 		return recipes;

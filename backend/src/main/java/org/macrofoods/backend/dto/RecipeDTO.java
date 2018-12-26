@@ -13,6 +13,7 @@ public final class RecipeDTO {
 	private short difficulty;
 	private List<IngredientGroupDTO> ingGroups;
 	private List<StepGroupDTO> stepGroups;
+	private List<TagDTO> tags;
 
 	public String getTitle() {
 		return title;
@@ -92,6 +93,14 @@ public final class RecipeDTO {
 
 	public void setServings(short servings) {
 		this.servings = servings;
+	}
+
+	public List<TagDTO> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<TagDTO> tags) {
+		this.tags = tags;
 	}
 
 }

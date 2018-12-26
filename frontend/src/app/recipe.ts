@@ -1,7 +1,7 @@
 import { Difficulty } from './difficulty';
 import { IngredientGroup } from './ingredient-group';
 import { StepGroup } from './step-group';
-import { Category } from './category';
+import { Tag } from './tag';
 import { Macros } from './macros';
 
 export class Recipe {
@@ -16,7 +16,7 @@ export class Recipe {
   ingGroups: IngredientGroup[] = [];
   stepGroups: StepGroup[] = [];
   image: string;
-  categories: Category[] = [];
+  tags: Tag[] = [];
   macros: Macros;
 
   static fromJSON(data: any): Recipe {
@@ -33,15 +33,8 @@ export class Recipe {
       r.ingGroups = data.ingGroups.map(d => IngredientGroup.fromJSON(d));
     r.stepGroups = data.stepGroups;
     r.image = data.image;
-    if(data.categories != null)
-      r.categories = data.categories.map(d => Object.assign(new Category(), d));
-    else {
-      // Only for test purposes
-      let c: Category = new Category();
-      c.id = 1;
-      c.name = 'High-Protein';
-      r.categories.push(c);
-    }
+    if(data.tags != null)
+      r.tags = data.tags.map(d => Tag.fromJSON(d));
     r.macros = r.computeMacros();
     return r;
   }
@@ -66,6 +59,18 @@ export class Recipe {
     for(let i = 0; i < this.stepGroups.length; i++){
       if ( this.stepGroups[i] === iGroup) {
         this.stepGroups.splice(i, 1);
+      }
+    }
+  }
+
+  addTag(iTag: Tag): void {
+    this.tags.push(iTag);
+  }
+
+  deleteTag(iTag: Tag): void {
+    for(let i = 0; i < this.tags.length; i++){
+      if ( this.tags[i] === iTag) {
+        this.tags.splice(i, 1);
       }
     }
   }

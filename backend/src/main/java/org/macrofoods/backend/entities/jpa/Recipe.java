@@ -1,5 +1,6 @@
 package org.macrofoods.backend.entities.jpa;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -9,6 +10,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
@@ -38,6 +42,10 @@ public class Recipe {
 	private List<RecipeDescription> descriptions;
 	@OneToMany(mappedBy = "recipe", targetEntity = IngredientGroup.class)
 	private List<IngredientGroup> ingGroups;
+	@ManyToMany
+	@JoinTable(name = "RecipeTags", joinColumns = { @JoinColumn(name = "recipe_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "tag_id") })
+	private List<Tag> tags = new ArrayList<Tag>();
 
 	public Recipe() {
 	}
@@ -118,4 +126,7 @@ public class Recipe {
 		return ingGroups;
 	}
 
+	public List<Tag> getTags() {
+		return tags;
+	}
 }

@@ -31,6 +31,12 @@
 		<description></description>
 		<servlet-class>org.macrofoods.backend.servlets.TopRecipesServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>SearchTagsServlet</servlet-name>
+		<display-name>SearchTagsServlet</display-name>
+		<description></description>
+		<servlet-class>org.macrofoods.backend.servlets.SearchTagsServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>TestTransaction</servlet-name>
 		<url-pattern>/v1/tests/transaction</url-pattern>
@@ -46,6 +52,10 @@
 	<servlet-mapping>
 		<servlet-name>TopRecipesServlet</servlet-name>
 		<url-pattern>/v1/recipes/top</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SearchTagsServlet</servlet-name>
+		<url-pattern>/v1/tags</url-pattern>
 	</servlet-mapping>
 	<resource-ref>
 		<description>DB Connection</description>
