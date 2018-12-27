@@ -42,6 +42,8 @@ public class Recipe {
 	private List<RecipeDescription> descriptions;
 	@OneToMany(mappedBy = "recipe", targetEntity = IngredientGroup.class)
 	private List<IngredientGroup> ingGroups;
+	@OneToMany(mappedBy = "recipe", targetEntity = StepGroup.class)
+	private List<StepGroup> stpGroups;
 	@ManyToMany
 	@JoinTable(name = "RecipeTags", joinColumns = { @JoinColumn(name = "recipe_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "tag_id") })
@@ -124,6 +126,10 @@ public class Recipe {
 
 	public List<IngredientGroup> getIngGroups() {
 		return ingGroups;
+	}
+
+	public List<StepGroup> getStpGroups() {
+		return stpGroups;
 	}
 
 	public List<Tag> getTags() {

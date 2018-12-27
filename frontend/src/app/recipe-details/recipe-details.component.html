@@ -1,0 +1,43 @@
+
+<div class="fbs-recipe-details" *ngIf="recipe">
+  <h2>{{recipe.title | uppercase}}</h2>
+  <div class="fbs-recipe-details-tags" *ngIf="recipe.tags">
+    <span *ngFor="let tag of recipe.tags">{{tag.description}} </span>
+  </div>
+  <div class="fbs-recipe-details-macros" *ngIf="recipe.macros">
+    <span>Kcal</span> <span>{{recipe.macros.calories | number : '1.0-0'}}</span>
+    <span>Protein</span> <span>{{recipe.macros.protein | number : '1.0-0' }}G</span>
+    <span>Carbs</span> <span>{{recipe.macros.carbs | number : '1.0-0' }}G</span>
+    <span>Fat</span> <span>{{recipe.macros.fat | number : '1.0-0' }}G</span>
+  </div>
+  <div class="fbs-recipe-details-times" >
+    <span>Prep Time</span> <span>{{recipe.prepTime}} minutes</span>
+    <span>Cook Time</span> <span>{{recipe.cookTime}} minutes</span>
+    <span>Total Time</span> <span>{{recipe.prepTime+recipe.cookTime}} minutes</span>
+  </div>
+  <div class="fbs-recipe-details-info">
+    <span>Servings</span> <span>{{recipe.servings}}</span>
+    <span>Difficulty</span> <span>{{recipe.difficulty}}</span>
+  </div>
+  <img src="{{recipe.image}}">
+  <div class="fbs-recipe-details-ingredients">
+    <div *ngFor="let iGroup of recipe.ingGroups">
+      <h3 *ngIf="iGroup.name">{{iGroup.name}}</h3>
+      <ul>
+        <li *ngFor="let ing of iGroup.ingredients">
+          <span>{{ing.amount}}</span> g {{ing.food.description}}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="fbs-recipe-details-steps">
+    <div *ngFor="let sGroup of recipe.stepGroups">
+      <h3 *ngIf="sGroup.name">{{sGroup.name}}</h3>
+      <ol>
+        <li *ngFor="let step of sGroup.steps">
+          {{step.description}}
+        </li>
+      </ol>
+    </div>
+  </div>
+</div>

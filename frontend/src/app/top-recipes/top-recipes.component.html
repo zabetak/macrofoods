@@ -2,7 +2,7 @@
 <div class="fbs-recipe-list">
   <div class="fbs-recipe-preview" *ngFor="let recipe of recipes ">
     <div class="fbs-recipe-preview-container">
-      <a><img src="{{recipe.image}}"></a>
+      <a routerLink="/recipes/{{recipe.id}}"><img src="{{recipe.image}}"></a>
       <div class="fbs-recipe-overview">
         <h3 class="fbs-recipe-title"><a>{{recipe.title}}</a></h3>
         <div>{{recipe.summary}}</div>

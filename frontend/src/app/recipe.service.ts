@@ -16,6 +16,18 @@ export class RecipeService {
 
   constructor(private http: HttpClient) { }
 
+  getRecipe(id: number): Observable<Recipe> {
+    const options = {};
+    return this.http.get<Recipe>(this.baseUrl+'/recipes/'+id, options)
+      .pipe(
+        map(data => Recipe.fromJSON(data)),
+        catchError((error: any, caught:Observable<Recipe>) => {
+          console.log(error);
+          return of(new Recipe());
+        })
+      );
+  }
+
   save(recipe: Recipe){
     this.http.post<Recipe>(this.baseUrl+'/recipes/save', recipe, httpOptions)
       .pipe(

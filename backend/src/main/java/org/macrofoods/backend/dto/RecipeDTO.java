@@ -3,6 +3,7 @@ package org.macrofoods.backend.dto;
 import java.util.List;
 
 public final class RecipeDTO {
+	private int id;
 	private String title;
 	private String summary;
 	private String conclusion;
@@ -14,6 +15,14 @@ public final class RecipeDTO {
 	private List<IngredientGroupDTO> ingGroups;
 	private List<StepGroupDTO> stepGroups;
 	private List<TagDTO> tags;
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getId() {
+		return id;
+	}
 
 	public String getTitle() {
 		return title;

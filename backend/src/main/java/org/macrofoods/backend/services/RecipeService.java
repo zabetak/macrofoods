@@ -2,6 +2,7 @@ package org.macrofoods.backend.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -32,13 +33,16 @@ import org.macrofoods.backend.entities.jpa.TagDescription;
 public final class RecipeService {
 
 	private final EntityManager em;
+	private final FoodsService fs;
+	private final LangCode lCode = LangCode.US;
 
 	public RecipeService(EntityManager entityManager) {
 		this.em = entityManager;
+		// TODO Unify langcodes US/EN
+		this.fs = new FoodsService(em, LangCode.EN);
 	}
 
 	public int saveRecipe(RecipeDTO recipe) {
-		LangCode lCode = LangCode.US;
 		em.getTransaction().begin();
 		Recipe eRecipe = new Recipe();
 		eRecipe.setCookTime(recipe.getCookTime());
@@ -133,66 +137,92 @@ public final class RecipeService {
 		return eRecipe.getId();
 	}
 
+	public RecipeDTO findRecipe(int id) {
+		Recipe eRecipe = em.find(Recipe.class, id);
+		return eRecipe == null ? null : toDTO(eRecipe);
+	}
+
 	public List<RecipeDTO> topRecipes() {
-		LangCode lCode = LangCode.US;
-		// TODO Unify langcodes US/EN
-		FoodsService fs = new FoodsService(em, LangCode.EN);
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Recipe> q = builder.createQuery(Recipe.class);
 		q.from(Recipe.class);
 		TypedQuery<Recipe> query = em.createQuery(q);
 		List<RecipeDTO> recipes = new ArrayList<RecipeDTO>();
-		for (Recipe eRecipe : query.getResultList()) {
-			RecipeDTO sample = new RecipeDTO();
-			Short cookTime = eRecipe.getCookTime();
-			if (cookTime != null)
-				sample.setCookTime(cookTime);
-			Short prepTime = eRecipe.getPrepTime();
-			if (prepTime != null)
-				sample.setPrepTime(prepTime);
-			byte[] img = eRecipe.getImage();
-			if (img != null)
-				sample.setImage(new String(img));
-			Short servings = eRecipe.getServings();
-			if (servings != null)
-				sample.setServings(servings);
-			for (RecipeDescription rDescription : eRecipe.getDescriptions())
-				if (rDescription.getLangCode().equals(lCode)) {
-					sample.setConclusion(rDescription.getConclusion());
-					sample.setTitle(rDescription.getTitle());
-					sample.setSummary(rDescription.getSummary());
-				}
-			List<IngredientGroupDTO> ingGroups = new ArrayList<IngredientGroupDTO>();
-			for (IngredientGroup rGroup : eRecipe.getIngGroups()) {
-				IngredientGroupDTO iGroupDTO = new IngredientGroupDTO();
-				for (IngredientGroupDescription rGroupDescription : rGroup.getDescriptions())
-					if (rGroupDescription.getLangCode().equals(lCode))
-						iGroupDTO.setName(rGroupDescription.getTitle());
-				List<IngredientDTO> ingredientDTOs = new ArrayList<IngredientDTO>();
-				for (Ingredient ing : rGroup.getIngredients()) {
-					IngredientDTO ingDTO = new IngredientDTO();
-					ingDTO.setAmount(ing.getAmount());
-					Food food = ing.getFood();
-					ingDTO.setFood(fs.findFood(food.getId()));
-					ingredientDTOs.add(ingDTO);
-				}
-				iGroupDTO.setIngredients(ingredientDTOs);
-				ingGroups.add(iGroupDTO);
-			}
-			sample.setIngGroups(ingGroups);
-			List<TagDTO> tagDTOs = new ArrayList<TagDTO>();
-			for (Tag tag : eRecipe.getTags()) {
-				TagDTO tg = new TagDTO();
-				for (TagDescription tgDesc : tag.getDescriptions()) {
-					if (tgDesc.getLangCode().equals(lCode)) {
-						tg.setDescription(tgDesc.getName());
-						tagDTOs.add(tg);
-					}
-				}
-			}
-			sample.setTags(tagDTOs);
-			recipes.add(sample);
-		}
+		for (Recipe eRecipe : query.getResultList())
+			recipes.add(toDTO(eRecipe));
 		return recipes;
+	}
+
+	private RecipeDTO toDTO(Recipe eRecipe) {
+		Objects.requireNonNull(eRecipe);
+		RecipeDTO sample = new RecipeDTO();
+		sample.setId(eRecipe.getId());
+		Short cookTime = eRecipe.getCookTime();
+		if (cookTime != null)
+			sample.setCookTime(cookTime);
+		Short prepTime = eRecipe.getPrepTime();
+		if (prepTime != null)
+			sample.setPrepTime(prepTime);
+		byte[] img = eRecipe.getImage();
+		if (img != null)
+			sample.setImage(new String(img));
+		Short servings = eRecipe.getServings();
+		if (servings != null)
+			sample.setServings(servings);
+		for (RecipeDescription rDescription : eRecipe.getDescriptions())
+			if (rDescription.getLangCode().equals(lCode)) {
+				sample.setConclusion(rDescription.getConclusion());
+				sample.setTitle(rDescription.getTitle());
+				sample.setSummary(rDescription.getSummary());
+			}
+		List<IngredientGroupDTO> ingGroups = new ArrayList<IngredientGroupDTO>();
+		for (IngredientGroup rGroup : eRecipe.getIngGroups()) {
+			IngredientGroupDTO iGroupDTO = new IngredientGroupDTO();
+			for (IngredientGroupDescription rGroupDescription : rGroup.getDescriptions())
+				if (rGroupDescription.getLangCode().equals(lCode))
+					iGroupDTO.setName(rGroupDescription.getTitle());
+			List<IngredientDTO> ingredientDTOs = new ArrayList<IngredientDTO>();
+			for (Ingredient ing : rGroup.getIngredients()) {
+				IngredientDTO ingDTO = new IngredientDTO();
+				ingDTO.setAmount(ing.getAmount());
+				Food food = ing.getFood();
+				ingDTO.setFood(fs.findFood(food.getId()));
+				ingredientDTOs.add(ingDTO);
+			}
+			iGroupDTO.setIngredients(ingredientDTOs);
+			ingGroups.add(iGroupDTO);
+		}
+		sample.setIngGroups(ingGroups);
+
+		List<StepGroupDTO> stpGroups = new ArrayList<StepGroupDTO>();
+		for (StepGroup sGroup : eRecipe.getStpGroups()) {
+			StepGroupDTO sGroupDTO = new StepGroupDTO();
+			for (StepGroupDescription sGroupDescription : sGroup.getDescriptions())
+				if (sGroupDescription.getLangCode().equals(lCode))
+					sGroupDTO.setName(sGroupDescription.getTitle());
+			List<StepDTO> stepDTOs = new ArrayList<StepDTO>();
+			for (Step step : sGroup.getSteps()) {
+				StepDTO stpDTO = new StepDTO();
+				for (StepDescription stepDesc : step.getDescriptions())
+					if (stepDesc.getLangCode().equals(lCode))
+						stpDTO.setDescription(stepDesc.getDescription());
+				stepDTOs.add(stpDTO);
+			}
+			sGroupDTO.setSteps(stepDTOs);
+			stpGroups.add(sGroupDTO);
+		}
+		sample.setStepGroups(stpGroups);
+		List<TagDTO> tagDTOs = new ArrayList<TagDTO>();
+		for (Tag tag : eRecipe.getTags()) {
+			TagDTO tg = new TagDTO();
+			for (TagDescription tgDesc : tag.getDescriptions()) {
+				if (tgDesc.getLangCode().equals(lCode)) {
+					tg.setDescription(tgDesc.getName());
+					tagDTOs.add(tg);
+				}
+			}
+		}
+		sample.setTags(tagDTOs);
+		return sample;
 	}
 }

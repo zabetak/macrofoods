@@ -4,6 +4,13 @@ export class StepGroup {
   name: string = "Steps";
   steps: Step[] = [];
 
+
+  static fromJSON(data:any):StepGroup {
+    let group : StepGroup = new StepGroup();
+    group.steps = data.steps.map(d => Step.fromJSON(d));
+    return group;
+  }
+
   addNewStep(): void{
     this.steps.push(new Step());
   }

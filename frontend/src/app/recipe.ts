@@ -20,6 +20,7 @@ export class Recipe {
   macros: Macros;
 
   static fromJSON(data: any): Recipe {
+    console.log(data);
     let r: Recipe = new Recipe();
     r.id = data.id;
     r.title = data.title;
@@ -31,7 +32,8 @@ export class Recipe {
     r.servings = data.servings;
     if(data.ingGroups != null)
       r.ingGroups = data.ingGroups.map(d => IngredientGroup.fromJSON(d));
-    r.stepGroups = data.stepGroups;
+    if(data.stepGroups != null)
+      r.stepGroups = data.stepGroups.map(d => StepGroup.fromJSON(d));
     r.image = data.image;
     if(data.tags != null)
       r.tags = data.tags.map(d => Tag.fromJSON(d));

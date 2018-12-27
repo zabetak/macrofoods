@@ -15,6 +15,7 @@ import { ManageStepsComponent } from './create-recipe/manage-steps/manage-steps.
 import { AppRoutingModule } from './/app-routing.module';
 import { TopRecipesComponent } from './top-recipes/top-recipes.component';
 import { SearchTagsComponent } from './create-recipe/search-tags/search-tags.component';
+import { RecipeDetailsComponent } from './recipe-details/recipe-details.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { SearchTagsComponent } from './create-recipe/search-tags/search-tags.com
     ManageIngredientsComponent,
     ManageStepsComponent,
     TopRecipesComponent,
-    SearchTagsComponent
+    SearchTagsComponent,
+    RecipeDetailsComponent
   ],
   imports: [
     BrowserModule,

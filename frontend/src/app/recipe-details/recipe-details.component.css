@@ -1,0 +1,10 @@
+.fbs-recipe-details {
+  width: 100%;
+  display: block;
+}
+
+.fbs-recipe-details img {
+  width: 100%;
+  max-width: 661px;
+  max-height: 496px;
+}
