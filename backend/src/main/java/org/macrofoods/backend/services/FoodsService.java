@@ -2,7 +2,10 @@ package org.macrofoods.backend.services;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Tuple;
@@ -13,9 +16,11 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Selection;
 
 import org.macrofoods.backend.dto.FoodDTO;
-import org.macrofoods.backend.dto.MacrosDTO;
+import org.macrofoods.backend.dto.NutrientDTO;
+import org.macrofoods.backend.dto.NutritionalFactsDTO;
 import org.macrofoods.backend.entities.jpa.Food;
 import org.macrofoods.backend.entities.jpa.FoodDescription;
 import org.macrofoods.backend.entities.jpa.FoodDescription_;
@@ -49,67 +54,85 @@ public final class FoodsService {
 		Join<FoodGroup, FoodGroupDescription> fgDescription = fGroup.join(FoodGroup_.descriptions);
 		Join<Food, NutrientData> fData = food.join(Food_.data, JoinType.LEFT);
 		Join<NutrientData, Nutrient> nutrient = fData.join(NutrientData_.nutrient);
-		Predicate macrosPredicate = builder.or(builder.equal(nutrient.get(Nutrient_.tagName), "PROCNT"),
-				builder.equal(nutrient.get(Nutrient_.tagName), "CHOCDF"), builder.equal(nutrient.get("tagName"), "FAT"),
-				builder.equal(nutrient.get(Nutrient_.tagName), "ENERC_KCAL"));
+
+		Predicate nutrientPred = builder.conjunction();
+		// List<String> nutrientTags = Arrays.asList("PROCNT", "CHOCDF", "FAT",
+		// "ENERC_KCAL", "STARCH", "SUGAR", "FIBTG");
+		List<String> nutrientTags = Collections.emptyList();
+		for (String ntag : nutrientTags)
+			nutrientPred = builder.or(nutrientPred, builder.equal(nutrient.get(Nutrient_.tagName), ntag));
 		q.where(builder.and(builder.equal(food.get(Food_.id), builder.parameter(Integer.class, FOOD_ID_PARAM)),
-				builder.equal(builder.upper(fDescription.get(FoodDescription_.langCode)), lCode), macrosPredicate));
-		q.groupBy(food.get("id"), fDescription.get(FoodDescription_.longDesc),
-				fgDescription.get(FoodGroupDescription_.shortDesc));
-		q.multiselect(food.get(Food_.id), fDescription.get(FoodDescription_.longDesc),
-				fgDescription.get(FoodGroupDescription_.shortDesc),
-				builder.sum(builder.selectCase()
-						.when(builder.equal(nutrient.get(Nutrient_.tagName), "ENERC_KCAL"),
-								fData.get(NutrientData_.amount))
-						.otherwise(builder.literal(0)).as(BigDecimal.class)),
-				builder.sum(builder.selectCase()
-						.when(builder.equal(nutrient.get(Nutrient_.tagName), "PROCNT"), fData.get(NutrientData_.amount))
-						.otherwise(builder.literal(0)).as(BigDecimal.class)),
-				builder.sum(builder.selectCase()
-						.when(builder.equal(nutrient.get(Nutrient_.tagName), "CHOCDF"), fData.get(NutrientData_.amount))
-						.otherwise(builder.literal(0)).as(BigDecimal.class)),
-				builder.sum(builder.selectCase()
-						.when(builder.equal(nutrient.get(Nutrient_.tagName), "FAT"), fData.get(NutrientData_.amount))
-						.otherwise(builder.literal(0)).as(BigDecimal.class)));
+				builder.equal(builder.upper(fDescription.get(FoodDescription_.langCode)), lCode), nutrientPred));
+		q.orderBy(builder.asc(food.get(Food_.id)));
+		List<Selection<?>> selections = new ArrayList<Selection<?>>();
+		selections.add(food.get(Food_.id));
+		selections.add(fDescription.get(FoodDescription_.longDesc));
+		selections.add(fgDescription.get(FoodGroupDescription_.shortDesc));
+		selections.add(nutrient.get(Nutrient_.tagName));
+		selections.add(nutrient.get(Nutrient_.nDesc));
+		selections.add(fData.get(NutrientData_.amount));
+		selections.add(nutrient.get(Nutrient_.units));
+
+		q.multiselect(selections);
 
 		foodById = em.createQuery(q);
 		q.where(builder.and(
 				builder.like(builder.upper(fDescription.get(FoodDescription_.longDesc).as(String.class)),
 						builder.parameter(String.class, FOOD_DESC_PARAM)),
-				builder.equal(builder.upper(fDescription.get(FoodDescription_.langCode)), lCode), macrosPredicate));
+				builder.equal(builder.upper(fDescription.get(FoodDescription_.langCode)), lCode), nutrientPred));
 		foodByDescription = em.createQuery(q);
 	}
 
 	public FoodDTO findFood(int id) {
 
 		foodById.setParameter(FOOD_ID_PARAM, id);
-		Tuple t = foodById.getSingleResult();
-
-		String desc = t.get(1, String.class);
-		String category = t.get(2, String.class);
-		MacrosDTO macros = new MacrosDTO();
-		macros.setCalories(t.get(3, BigDecimal.class));
-		macros.setProtein(t.get(4, BigDecimal.class));
-		macros.setCarbs(t.get(5, BigDecimal.class));
-		macros.setFat(t.get(6, BigDecimal.class));
-
-		return new FoodDTO(id, desc, category, macros);
+		return buildFoodDTO(foodById).get(0);
 	}
 
 	public List<FoodDTO> findFoods(String descriptionPattern) {
 		foodByDescription.setParameter(FOOD_DESC_PARAM, descriptionPattern);
-		List<FoodDTO> results = new ArrayList<FoodDTO>();
-		for (Tuple t : foodByDescription.getResultList()) {
-			Integer id = t.get(0, Integer.class);
-			String desc = t.get(1, String.class);
-			String category = t.get(2, String.class);
-			MacrosDTO macros = new MacrosDTO();
-			macros.setCalories(t.get(3, BigDecimal.class));
-			macros.setProtein(t.get(4, BigDecimal.class));
-			macros.setCarbs(t.get(5, BigDecimal.class));
-			macros.setFat(t.get(6, BigDecimal.class));
-			results.add(new FoodDTO(id, desc, category, macros));
+		return buildFoodDTO(foodByDescription);
+	}
+
+	private List<FoodDTO> buildFoodDTO(TypedQuery<Tuple> query) {
+		Map<Integer, List<Tuple>> nutrientsByFood = new HashMap<Integer, List<Tuple>>();
+		for (Tuple t : query.getResultList()) {
+			Integer fid = t.get(0, Integer.class);
+			List<Tuple> tuples = nutrientsByFood.get(fid);
+			if (tuples == null)
+				tuples = new ArrayList<Tuple>();
+			tuples.add(t);
+			nutrientsByFood.put(fid, tuples);
 		}
-		return results;
+
+		List<FoodDTO> foods = new ArrayList<FoodDTO>();
+		for (List<Tuple> nutrientsTuples : nutrientsByFood.values()) {
+			List<NutrientDTO> nutrients = new ArrayList<NutrientDTO>();
+			FoodDTO fd = new FoodDTO();
+			for (Tuple t : nutrientsTuples) {
+				if (nutrients.isEmpty()) {
+					fd.setId(t.get(0, Integer.class));
+					fd.setDescription(t.get(1, String.class));
+					fd.setCategory(t.get(2, String.class));
+				}
+				String tag = t.get(3, String.class);
+				String ndesc = t.get(4, String.class);
+				BigDecimal amount = t.get(5, BigDecimal.class);
+				String units = t.get(6, String.class);
+				NutrientDTO nutrient = new NutrientDTO();
+				nutrient.setTag(tag);
+				nutrient.setName(ndesc);
+				nutrient.setValue(amount);
+				nutrient.setUnits(units);
+				nutrients.add(nutrient);
+			}
+			if (!nutrients.isEmpty()) {
+				NutritionalFactsDTO facts = new NutritionalFactsDTO();
+				facts.setNutrients(nutrients);
+				fd.setFacts(facts);
+				foods.add(fd);
+			}
+		}
+		return foods;
 	}
 }

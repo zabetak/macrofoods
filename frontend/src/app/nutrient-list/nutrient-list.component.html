@@ -1,0 +1,6 @@
+<ul *ngIf="nutrients">
+  <li *ngFor="let n of nutrients">
+    <span>{{n.name}}</span>
+    <span>{{n.value | number : '1.0-1'}} {{n.units}}</span>
+  </li>
+</ul>

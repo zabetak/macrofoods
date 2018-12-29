@@ -1,11 +1,11 @@
 import { Food } from './food';
 import { Ingredient } from './ingredient';
-import { Macros } from './macros';
+import { NutritionalFacts } from './nutritional-facts';
 
 export class IngredientGroup {
   name: string = "Ingredients";
   ingredients: Ingredient[] = [];
-  macros: Macros;
+  facts: NutritionalFacts;
 
   static fromJSON(data:any):IngredientGroup {
     let group : IngredientGroup = new IngredientGroup();
@@ -32,10 +32,10 @@ export class IngredientGroup {
   }
 
   calculateSums(): void {
-    let m: Macros = new Macros();
+    this.facts = new NutritionalFacts();
     this.ingredients.forEach((ing:Ingredient) => {
-      m = m.add(ing.macros());
+      this.facts = this.facts.add(ing.facts());
     });
-    this.macros = m;
   }
+
 }

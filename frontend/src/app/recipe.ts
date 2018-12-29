@@ -2,7 +2,7 @@ import { Difficulty } from './difficulty';
 import { IngredientGroup } from './ingredient-group';
 import { StepGroup } from './step-group';
 import { Tag } from './tag';
-import { Macros } from './macros';
+import { NutritionalFacts } from './nutritional-facts';
 
 export class Recipe {
   id: number;
@@ -17,10 +17,9 @@ export class Recipe {
   stepGroups: StepGroup[] = [];
   image: string;
   tags: Tag[] = [];
-  macros: Macros;
+  facts: NutritionalFacts;
 
   static fromJSON(data: any): Recipe {
-    console.log(data);
     let r: Recipe = new Recipe();
     r.id = data.id;
     r.title = data.title;
@@ -37,7 +36,7 @@ export class Recipe {
     r.image = data.image;
     if(data.tags != null)
       r.tags = data.tags.map(d => Tag.fromJSON(d));
-    r.macros = r.computeMacros();
+    r.facts = r.computeMacros();
     return r;
   }
 
@@ -77,10 +76,10 @@ export class Recipe {
     }
   }
 
-  private computeMacros(): Macros {
-    let m: Macros = new Macros();
+  private computeMacros(): NutritionalFacts {
+    let m: NutritionalFacts = new NutritionalFacts();
     this.ingGroups.forEach(ig => {
-      m = m.add(ig.macros);
+      m = m.add(ig.facts);
     })
     return m;
   }

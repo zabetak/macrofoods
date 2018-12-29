@@ -32,6 +32,8 @@ public final class GetRecipeServlet extends EMServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
 		Integer id = Integer.parseInt(request.getPathInfo().substring(1));
 		EntityManager em = newEntityManager();
 		try {

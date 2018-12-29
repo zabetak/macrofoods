@@ -2,11 +2,11 @@
 <div>
   <div *ngFor="let food of foods | async" (click)="onSelect(food)">
     <div><span>{{food.description}}</span> <span>({{food.category}})</span></div>
-    <ul>
-      <li>{{food.macros.calories}} <span>Kcal</span></li>
-      <li>{{food.macros.protein}} <span>Proteins</span></li>
-      <li>{{food.macros.carbs}} <span>Carbs</span></li>
-      <li>{{food.macros.fat}} <span>Fats</span></li>
-    </ul>
+    <app-nutrient-list [nutrients]="[
+    food.facts.energy(),
+    food.facts.protein(),
+    food.facts.carbs(),
+    food.facts.fat()
+    ]"></app-nutrient-list>
   </div>
 </div>

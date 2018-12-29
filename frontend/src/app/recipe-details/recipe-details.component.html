@@ -4,11 +4,14 @@
   <div class="fbs-recipe-details-tags" *ngIf="recipe.tags">
     <span *ngFor="let tag of recipe.tags">{{tag.description}} </span>
   </div>
-  <div class="fbs-recipe-details-macros" *ngIf="recipe.macros">
-    <span>Kcal</span> <span>{{recipe.macros.calories | number : '1.0-0'}}</span>
-    <span>Protein</span> <span>{{recipe.macros.protein | number : '1.0-0' }}G</span>
-    <span>Carbs</span> <span>{{recipe.macros.carbs | number : '1.0-0' }}G</span>
-    <span>Fat</span> <span>{{recipe.macros.fat | number : '1.0-0' }}G</span>
+  <div class="fbs-recipe-details-macros" *ngIf="recipe.facts">
+    <app-nutrient-list
+    [nutrients]="[
+    recipe.facts.energy(),
+    recipe.facts.protein(),
+    recipe.facts.carbs(),
+    recipe.facts.fat()]">
+    </app-nutrient-list>
   </div>
   <div class="fbs-recipe-details-times" >
     <span>Prep Time</span> <span>{{recipe.prepTime}} minutes</span>
@@ -39,5 +42,55 @@
         </li>
       </ol>
     </div>
+  </div>
+  <div class="fbs-recipe-details-carbs">
+    <h3>Carbohydrates</h3>
+    <app-nutrient-list [nutrients]="[recipe.facts.fiber(),recipe.facts.starch(),recipe.facts.sugars()]"></app-nutrient-list>
+  </div>
+  <div class="fbs-recipe-details-protein">
+    <h3>Protein</h3>
+    <app-nutrient-list [nutrients]="[recipe.facts.cystine(),recipe.facts.histidine(),recipe.facts.isoleucine(),recipe.facts.leucine(),recipe.facts.lysine(),recipe.facts.methionine(),recipe.facts.phenylalanine(),recipe.facts.threonine(),recipe.facts.tryptophan(),recipe.facts.tyrosine(),recipe.facts.valine()]"></app-nutrient-list>
+  </div>
+  <div class="fbs-recipe-details-vitamins">
+    <h3>Vitamins</h3>
+    <app-nutrient-list [nutrients]="[
+    recipe.facts.thiamin(),
+    recipe.facts.riboflavin(),
+    recipe.facts.niacin(),
+    recipe.facts.pantothenicAcid(),
+    recipe.facts.b6(),
+    recipe.facts.b12(),
+    recipe.facts.folate(),
+    recipe.facts.vitA(),
+    recipe.facts.vitC(),
+    recipe.facts.vitD(),
+    recipe.facts.vitE(),
+    recipe.facts.vitK()
+    ]"></app-nutrient-list>
+  </div>
+  <div class="fbs-recipe-details-vitamins">
+    <h3>Minerals</h3>
+    <app-nutrient-list [nutrients]="[
+    recipe.facts.calcium(),
+    recipe.facts.copper(),
+    recipe.facts.iron(),
+    recipe.facts.magnesium(),
+    recipe.facts.manganese(),
+    recipe.facts.phosphorus(),
+    recipe.facts.potassium(),
+    recipe.facts.selenium(),
+    recipe.facts.sodium(),
+    recipe.facts.zinc()
+    ]"></app-nutrient-list>
+  </div>
+  <div class="fbs-recipe-details-lipids">
+    <h3>Lipids</h3>
+    <app-nutrient-list [nutrients]="[
+    recipe.facts.monounsaturated(),
+    recipe.facts.polyunsaturated(),
+    recipe.facts.saturated(),
+    recipe.facts.trans(),
+    recipe.facts.cholesterol()
+    ]"></app-nutrient-list>
   </div>
 </div>

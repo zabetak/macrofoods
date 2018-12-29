@@ -4,18 +4,18 @@ public final class FoodDTO {
 	private int id;
 	private String description;
 	private String category;
-	private MacrosDTO macros;
+	private NutritionalFactsDTO facts;
 
 	public FoodDTO() {
 
 	}
 
-	public FoodDTO(int id, String description, String category, MacrosDTO macros) {
+	public FoodDTO(int id, String description, String category, NutritionalFactsDTO nutrients) {
 		super();
 		this.id = id;
 		this.description = description;
 		this.category = category;
-		this.macros = macros;
+		this.facts = nutrients;
 	}
 
 	public void setId(int id) {
@@ -30,10 +30,6 @@ public final class FoodDTO {
 		this.category = category;
 	}
 
-	public void setMacros(MacrosDTO macros) {
-		this.macros = macros;
-	}
-
 	public int getId() {
 		return id;
 	}
@@ -46,7 +42,12 @@ public final class FoodDTO {
 		return category;
 	}
 
-	public MacrosDTO getMacros() {
-		return macros;
+	public NutritionalFactsDTO getFacts() {
+		return facts;
 	}
+
+	public void setFacts(NutritionalFactsDTO facts) {
+		this.facts = facts;
+	}
+
 }

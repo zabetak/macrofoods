@@ -1,5 +1,5 @@
 import { Food } from './food';
-import { Macros } from './macros';
+import { NutritionalFacts } from './nutritional-facts';
 
 export class Ingredient {
   amount: number;
@@ -12,8 +12,8 @@ export class Ingredient {
       return i;
   }
 
-  macros(): Macros {
-    return this.food.macros.multiplyBy(this.amount/100);
+  facts(): NutritionalFacts {
+    return this.food.facts.multiplyBy(this.amount/100);
   }
 
 }

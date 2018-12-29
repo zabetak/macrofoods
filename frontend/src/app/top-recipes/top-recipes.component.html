@@ -6,11 +6,14 @@
       <div class="fbs-recipe-overview">
         <h3 class="fbs-recipe-title"><a>{{recipe.title}}</a></h3>
         <div>{{recipe.summary}}</div>
-        <div class="fbs-recipe-macros" *ngIf="recipe.macros">
-          <span>Kcal</span> <span>{{recipe.macros.calories | number : '1.0-0'}}</span>
-          <span>Protein</span> <span>{{recipe.macros.protein | number : '1.0-0' }}G</span>
-          <span>Carbs</span> <span>{{recipe.macros.carbs | number : '1.0-0' }}G</span>
-          <span>Fat</span> <span>{{recipe.macros.fat | number : '1.0-0' }}G</span>
+        <div class="fbs-recipe-macros">
+          <app-nutrient-list [nutrients]="[
+          recipe.facts.energy(),
+          recipe.facts.protein(),
+          recipe.facts.carbs(),
+          recipe.facts.fat()
+          ]">
+          </app-nutrient-list>
         </div>
         <div class="fbs-recipe-categories">
           <span *ngFor="let tag of recipe.tags">
