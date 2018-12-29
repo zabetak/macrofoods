@@ -63,7 +63,7 @@ public final class FoodsService {
 			nutrientPred = builder.or(nutrientPred, builder.equal(nutrient.get(Nutrient_.tagName), ntag));
 		q.where(builder.and(builder.equal(food.get(Food_.id), builder.parameter(Integer.class, FOOD_ID_PARAM)),
 				builder.equal(builder.upper(fDescription.get(FoodDescription_.langCode)), lCode), nutrientPred));
-		q.orderBy(builder.asc(food.get(Food_.id)));
+		// q.orderBy(builder.asc(food.get(Food_.id)));
 		List<Selection<?>> selections = new ArrayList<Selection<?>>();
 		selections.add(food.get(Food_.id));
 		selections.add(fDescription.get(FoodDescription_.longDesc));
@@ -95,6 +95,8 @@ public final class FoodsService {
 	}
 
 	private List<FoodDTO> buildFoodDTO(TypedQuery<Tuple> query) {
+		// TODO The following inefficient way of building the response object can
+		// most likely be avoided by a smarter TypedQuery.
 		Map<Integer, List<Tuple>> nutrientsByFood = new HashMap<Integer, List<Tuple>>();
 		for (Tuple t : query.getResultList()) {
 			Integer fid = t.get(0, Integer.class);
