@@ -1,96 +1,127 @@
 
 <div class="fbs-recipe-details" *ngIf="recipe">
-  <h2>{{recipe.title | uppercase}}</h2>
+  <h2>{{recipe.title}}</h2>
   <div class="fbs-recipe-details-tags" *ngIf="recipe.tags">
-    <span *ngFor="let tag of recipe.tags">{{tag.description}} </span>
+    <ul>
+      <li *ngFor="let tag of recipe.tags">{{tag.description}}</li>
+    </ul>
   </div>
-  <div class="fbs-recipe-details-macros" *ngIf="recipe.facts">
-    <app-nutrient-list
-    [nutrients]="[
-    recipe.facts.energy(),
-    recipe.facts.protein(),
-    recipe.facts.carbs(),
-    recipe.facts.fat()]">
-    </app-nutrient-list>
+  <div class="fbs-recipe-details-container">
+    <div class="fbs-recipe-details-main">
+      <div class="fbs-recipe-details-overview">
+        <div class="fbs-recipe-details-macros" *ngIf="recipe.facts">
+          <app-nutrient-list
+          [nutrients]="[
+          recipe.facts.energy(),
+          recipe.facts.protein(),
+          recipe.facts.carbs(),
+          recipe.facts.fat()]">
+        </app-nutrient-list>
+      </div>
+      <img src="{{recipe.image}}">
+      <div class="fbs-recipe-details-times" >
+        <ul>
+          <li>
+            <span class="name">Prep Time</span>
+            <span class="value">{{recipe.prepTime}}</span>
+            <span class="unit">minutes</span>
+          </li>
+          <li>
+            <span class="name">Cook Time</span>
+            <span class="value">{{recipe.cookTime}}</span>
+            <span class="unit">minutes</span>
+          </li>
+          <li>
+            <span class="name">Total Time</span>
+            <span class="value">{{recipe.prepTime+recipe.cookTime}}</span>
+            <span class="unit">minutes</span>
+          </li>
+        </ul>
+      </div>
+      <div class="fbs-recipe-details-info">
+        <span>Servings</span> <span>{{recipe.servings}}</span>
+        <span>Difficulty</span> <span>{{recipe.difficulty}}</span>
+      </div>
+    </div>
+    <div class="fbs-recipe-details-ingredients">
+      <div *ngFor="let iGroup of recipe.ingGroups">
+        <h3 *ngIf="iGroup.name">{{iGroup.name}}</h3>
+        <ul>
+          <li *ngFor="let ing of iGroup.ingredients">
+            <span>{{ing.amount}}</span> g {{ing.food.description}}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="fbs-recipe-details-steps">
+      <div *ngFor="let sGroup of recipe.stepGroups">
+        <h3 *ngIf="sGroup.name">{{sGroup.name}}</h3>
+        <ol>
+          <li *ngFor="let step of sGroup.steps">
+            {{step.description}}
+          </li>
+        </ol>
+      </div>
+    </div>
+
+
   </div>
-  <div class="fbs-recipe-details-times" >
-    <span>Prep Time</span> <span>{{recipe.prepTime}} minutes</span>
-    <span>Cook Time</span> <span>{{recipe.cookTime}} minutes</span>
-    <span>Total Time</span> <span>{{recipe.prepTime+recipe.cookTime}} minutes</span>
-  </div>
-  <div class="fbs-recipe-details-info">
-    <span>Servings</span> <span>{{recipe.servings}}</span>
-    <span>Difficulty</span> <span>{{recipe.difficulty}}</span>
-  </div>
-  <img src="{{recipe.image}}">
-  <div class="fbs-recipe-details-ingredients">
-    <div *ngFor="let iGroup of recipe.ingGroups">
-      <h3 *ngIf="iGroup.name">{{iGroup.name}}</h3>
-      <ul>
-        <li *ngFor="let ing of iGroup.ingredients">
-          <span>{{ing.amount}}</span> g {{ing.food.description}}
-        </li>
-      </ul>
+  <div class="fbs-recipe-details-facts">
+    <h3>Nutritional Facts</h3>
+    <div class="fbs-recipe-details-full-macros">
+      <div class="fbs-recipe-details-carbs">
+        <h4>Carbohydrates</h4>
+        <app-nutrient-list [nutrients]="[recipe.facts.fiber(),recipe.facts.starch(),recipe.facts.sugars()]"></app-nutrient-list>
+      </div>
+      <div class="fbs-recipe-details-protein">
+        <h4>Protein</h4>
+        <app-nutrient-list [nutrients]="[recipe.facts.cystine(),recipe.facts.histidine(),recipe.facts.isoleucine(),recipe.facts.leucine(),recipe.facts.lysine(),recipe.facts.methionine(),recipe.facts.phenylalanine(),recipe.facts.threonine(),recipe.facts.tryptophan(),recipe.facts.tyrosine(),recipe.facts.valine()]"></app-nutrient-list>
+      </div>
+      <div class="fbs-recipe-details-lipids">
+        <h4>Lipids</h4>
+        <app-nutrient-list [nutrients]="[
+        recipe.facts.monounsaturated(),
+        recipe.facts.polyunsaturated(),
+        recipe.facts.saturated(),
+        recipe.facts.trans(),
+        recipe.facts.cholesterol()
+        ]"></app-nutrient-list>
+      </div>
+    </div>
+    <div class="fbs-recipe-details-full-micros">
+      <div class="fbs-recipe-details-vitamins">
+        <h4>Vitamins</h4>
+        <app-nutrient-list [nutrients]="[
+        recipe.facts.thiamin(),
+        recipe.facts.riboflavin(),
+        recipe.facts.niacin(),
+        recipe.facts.pantothenicAcid(),
+        recipe.facts.b6(),
+        recipe.facts.b12(),
+        recipe.facts.folate(),
+        recipe.facts.vitA(),
+        recipe.facts.vitC(),
+        recipe.facts.vitD(),
+        recipe.facts.vitE(),
+        recipe.facts.vitK()
+        ]"></app-nutrient-list>
+      </div>
+      <div class="fbs-recipe-details-minerals">
+        <h4>Minerals</h4>
+        <app-nutrient-list [nutrients]="[
+        recipe.facts.calcium(),
+        recipe.facts.copper(),
+        recipe.facts.iron(),
+        recipe.facts.magnesium(),
+        recipe.facts.manganese(),
+        recipe.facts.phosphorus(),
+        recipe.facts.potassium(),
+        recipe.facts.selenium(),
+        recipe.facts.sodium(),
+        recipe.facts.zinc()
+        ]"></app-nutrient-list>
+      </div>
     </div>
   </div>
-  <div class="fbs-recipe-details-steps">
-    <div *ngFor="let sGroup of recipe.stepGroups">
-      <h3 *ngIf="sGroup.name">{{sGroup.name}}</h3>
-      <ol>
-        <li *ngFor="let step of sGroup.steps">
-          {{step.description}}
-        </li>
-      </ol>
-    </div>
-  </div>
-  <div class="fbs-recipe-details-carbs">
-    <h3>Carbohydrates</h3>
-    <app-nutrient-list [nutrients]="[recipe.facts.fiber(),recipe.facts.starch(),recipe.facts.sugars()]"></app-nutrient-list>
-  </div>
-  <div class="fbs-recipe-details-protein">
-    <h3>Protein</h3>
-    <app-nutrient-list [nutrients]="[recipe.facts.cystine(),recipe.facts.histidine(),recipe.facts.isoleucine(),recipe.facts.leucine(),recipe.facts.lysine(),recipe.facts.methionine(),recipe.facts.phenylalanine(),recipe.facts.threonine(),recipe.facts.tryptophan(),recipe.facts.tyrosine(),recipe.facts.valine()]"></app-nutrient-list>
-  </div>
-  <div class="fbs-recipe-details-vitamins">
-    <h3>Vitamins</h3>
-    <app-nutrient-list [nutrients]="[
-    recipe.facts.thiamin(),
-    recipe.facts.riboflavin(),
-    recipe.facts.niacin(),
-    recipe.facts.pantothenicAcid(),
-    recipe.facts.b6(),
-    recipe.facts.b12(),
-    recipe.facts.folate(),
-    recipe.facts.vitA(),
-    recipe.facts.vitC(),
-    recipe.facts.vitD(),
-    recipe.facts.vitE(),
-    recipe.facts.vitK()
-    ]"></app-nutrient-list>
-  </div>
-  <div class="fbs-recipe-details-vitamins">
-    <h3>Minerals</h3>
-    <app-nutrient-list [nutrients]="[
-    recipe.facts.calcium(),
-    recipe.facts.copper(),
-    recipe.facts.iron(),
-    recipe.facts.magnesium(),
-    recipe.facts.manganese(),
-    recipe.facts.phosphorus(),
-    recipe.facts.potassium(),
-    recipe.facts.selenium(),
-    recipe.facts.sodium(),
-    recipe.facts.zinc()
-    ]"></app-nutrient-list>
-  </div>
-  <div class="fbs-recipe-details-lipids">
-    <h3>Lipids</h3>
-    <app-nutrient-list [nutrients]="[
-    recipe.facts.monounsaturated(),
-    recipe.facts.polyunsaturated(),
-    recipe.facts.saturated(),
-    recipe.facts.trans(),
-    recipe.facts.cholesterol()
-    ]"></app-nutrient-list>
-  </div>
+</div>
 </div>

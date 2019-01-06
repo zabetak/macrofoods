@@ -1,29 +1,131 @@
-/* You can add global styles to this file, and also import other style files */
-h1 {
-  color: #369;
-  font-family: Arial, Helvetica, sans-serif;
+body {
+  font-size: calc(14px + 6 * ((100vw - 320px) / 680));
+  margin: 2em;
+  font-weight: 400;
 }
-h2, h3 {
-  color: #444;
+
+h1, h2, h3 {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+h1 {
+  color: #369;
+  font-size: 3em;
+  border: 10px;
+  border-width: 0px 0px 4px 0px;
+  border-style: solid;
+  border-color: #369;
+  margin: 0;
+}
+
+h2 {
+  font-size: 2em;
+  text-transform: capitalize;
+  margin: 4px 0 0 0;
+}
+
 h3 {
-  font-size: 18px;
+  font-size: 1.2em;
   font-weight: 500;
   margin: 0px 0px;
 }
 
-body {
-  margin: 2em;
-  font-weight: 400;
-}
 input[type="text"], button {
   color: #888;
   font-family: Cambria, Georgia;
 }
 /* everywhere else */
 * {
-  color:#7a7678;
+  /*color:#7a7678;*/
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.fbs-recipe-details {
+  width: 100%;
+  display: block;
+}
+
+.fbs-recipe-details-tags ul {
+  padding: 0px 0px 5px 0px;
+  margin: 0;
+  border-width: 0px 0px 2px 0px;
+  border-style: solid;
+}
+
+.fbs-recipe-details-tags li {
+  display: inline-block;
+  background-color: #369;
+  color:#FFF;
+  margin-right: 0.5em;
+  padding: 0.2em;
+  border-radius: 0.2em;
+  font-size: 0.8em;
+}
+
+.fbs-recipe-details-macros ul {
+  padding: 0;
+}
+
+.fbs-recipe-details-macros li {
+  display: inline-block;
+  margin-right: 0.5em;
+  font-weight: 600;
+  font-size: 0.95em;
+}
+
+.fbs-recipe-details-macros .fbs-nutrient-value,
+.fbs-recipe-details-macros .fbs-nutrient-units {
+  color: #369;
+}
+
+
+.fbs-recipe-details img {
+  width: 100%;
+  max-width: 661px;
+  max-height: 496px;
+}
+
+.fbs-recipe-details-times ul {
+  padding: 0;
+}
+
+.fbs-recipe-details-times li {
+  display: inline-block;
+  margin-right: 0.5em;
+  font-weight: 600;
+  font-size: 0.95em;
+}
+
+.fbs-recipe-details-times .value,
+.fbs-recipe-details-times .unit {
+  color: #369;
+}
+
+
+.fbs-recipe-details-overview {
+  max-width: 661px;
+}
+
+
+
+@media (min-width: 900px){
+  .fbs-recipe-details-maincontent {
+   display: inline;
+  }
+
+  .fbs-recipe-details-overview {
+    float:left;
+    margin-right: 3%;
+  }
+
+  .fbs-recipe-details-container {
+    display: -webkit-flex;
+    display: flex;
+  }
+  .fbs-recipe-details-main {
+      max-width: 70%;
+    }
+    .fbs-recipe-details-facts {
+     width: 27%;
+    }
 }
