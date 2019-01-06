@@ -19,8 +19,11 @@ export class NutritionalFacts {
 
   add(other:NutritionalFacts): NutritionalFacts {
     let copy: NutritionalFacts = new NutritionalFacts();
+    this.nutrients.forEach(n => {
+      copy.nutrients.set(n.tag, Object.assign(new Nutrient(), n));
+    });
     other.nutrients.forEach(n => {
-      let cnutrient : Nutrient = this.nutrients.get(n.tag);
+      let cnutrient : Nutrient = copy.nutrients.get(n.tag);
       if(cnutrient == null){
         cnutrient = Object.assign(new Nutrient(), n);
       } else {
