@@ -30,6 +30,11 @@ h3 {
   margin: 0px 0px;
 }
 
+h4 {
+  font-size: 1em;
+  font-weight: 500;
+}
+
 input[type="text"], button {
   color: #888;
   font-family: Cambria, Georgia;
@@ -106,6 +111,51 @@ input[type="text"], button {
   max-width: 661px;
 }
 
+.fbs-recipe-details-facts {
+  border-width: 1px;
+  padding: 10px;
+  border-style: solid;
+  margin: 5px 0px 0px 0px;
+}
+
+.fbs-recipe-details-facts h3 {
+  font-weight: 600;
+  border-width: 0px 0px 5px 0px;
+  border-style: solid;
+}
+
+.fbs-recipe-details-facts h4 {
+  border-width: 0px 0px 1px 0px;
+  border-style: solid;
+  margin: 5px 0px 5px 0px;
+}
+
+.fbs-recipe-details-facts ul {
+  list-style: none;
+  border-width: 0px 0px 2px 0px;
+  padding: 0px 0px 0px 20px;
+  border-style: solid;
+  margin: 0;
+}
+
+.fbs-recipe-details-facts li:last-child {
+  border-width: 0;
+}
+
+.fbs-recipe-details-facts li {
+  border-width: 0px 0px 1px 0px;
+  border-style: solid;
+}
+
+.fbs-recipe-details-facts li {
+  display: -webkit-flex;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.fbs-recipe-details-facts .fbs-nutrient-name {
+  margin-right: auto;
+}
 
 
 @media (min-width: 900px){
@@ -121,6 +171,7 @@ input[type="text"], button {
   .fbs-recipe-details-container {
     display: -webkit-flex;
     display: flex;
+    align-items: flex-start;
   }
   .fbs-recipe-details-main {
       max-width: 70%;
