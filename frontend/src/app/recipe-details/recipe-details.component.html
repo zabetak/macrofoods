@@ -68,17 +68,18 @@
   </div>
   <div class="fbs-recipe-details-facts">
     <h3>Nutrition Facts</h3>
+    <div class="header"><app-nutrient-details [nutrient]="recipe.facts.energy()"></app-nutrient-details></div>
     <div class="fbs-recipe-details-full-macros">
       <div class="fbs-recipe-details-carbs">
-        <h4>Carbohydrates</h4>
+        <h4><app-nutrient-details [nutrient]="recipe.facts.carbs()"></app-nutrient-details></h4>
         <app-nutrient-list [nutrients]="[recipe.facts.fiber(),recipe.facts.starch(),recipe.facts.sugars()]"></app-nutrient-list>
       </div>
       <div class="fbs-recipe-details-protein">
-        <h4>Protein</h4>
+        <h4><app-nutrient-details [nutrient]="recipe.facts.protein()"></app-nutrient-details></h4>
         <app-nutrient-list [nutrients]="[recipe.facts.cystine(),recipe.facts.histidine(),recipe.facts.isoleucine(),recipe.facts.leucine(),recipe.facts.lysine(),recipe.facts.methionine(),recipe.facts.phenylalanine(),recipe.facts.threonine(),recipe.facts.tryptophan(),recipe.facts.tyrosine(),recipe.facts.valine()]"></app-nutrient-list>
       </div>
       <div class="fbs-recipe-details-lipids">
-        <h4>Lipids</h4>
+        <h4><app-nutrient-details [nutrient]="recipe.facts.fat()"></app-nutrient-details></h4>
         <app-nutrient-list [nutrients]="[
         recipe.facts.monounsaturated(),
         recipe.facts.polyunsaturated(),

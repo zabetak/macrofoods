@@ -17,6 +17,7 @@ import { TopRecipesComponent } from './top-recipes/top-recipes.component';
 import { SearchTagsComponent } from './create-recipe/search-tags/search-tags.component';
 import { RecipeDetailsComponent } from './recipe-details/recipe-details.component';
 import { NutrientListComponent } from './nutrient-list/nutrient-list.component';
+import { NutrientDetailsComponent } from './nutrient-details/nutrient-details.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { NutrientListComponent } from './nutrient-list/nutrient-list.component';
     TopRecipesComponent,
     SearchTagsComponent,
     RecipeDetailsComponent,
-    NutrientListComponent
+    NutrientListComponent,
+    NutrientDetailsComponent
   ],
   imports: [
     BrowserModule,
