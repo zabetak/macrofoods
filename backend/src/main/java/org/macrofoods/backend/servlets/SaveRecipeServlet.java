@@ -35,9 +35,10 @@ public final class SaveRecipeServlet extends EMServlet implements Servlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
 		BufferedReader br = null;
 		EntityManager em = null;
-
 		try {
 			br = request.getReader();
 			ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
@@ -47,8 +48,8 @@ public final class SaveRecipeServlet extends EMServlet implements Servlet {
 			em = newEntityManager();
 			RecipeService service = new RecipeService(em);
 			Integer id = service.saveRecipe(recipe);
-			response.getWriter()
-					.write("{\"operation\":\"saveRecipe\", \"status\":\"success\", \"recipeid\":\"" + id + "\"}");
+			response.getWriter().write("{\"operation\":\"saveRecipe\", \"status\":\"success\", \"recipeid\":\"" + id
+					+ "\", \"recipetitle\":\"" + recipe.getTitle() + "\"}");
 		} finally {
 			if (em != null)
 				em.close();

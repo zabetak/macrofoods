@@ -34,6 +34,8 @@ public final class TopRecipesServlet extends EMServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
 		EntityManager em = newEntityManager();
 		try {
 			RecipeService service = new RecipeService(em);

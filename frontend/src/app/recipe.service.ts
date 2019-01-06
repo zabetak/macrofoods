@@ -7,7 +7,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' })
 };
 
 @Injectable()
@@ -17,8 +17,7 @@ export class RecipeService {
   constructor(private http: HttpClient) { }
 
   getRecipe(id: number): Observable<Recipe> {
-    const options = {};
-    return this.http.get<Recipe>(this.baseUrl+'/recipes/'+id, options)
+    return this.http.get<Recipe>(this.baseUrl+'/recipes/'+id, httpOptions)
       .pipe(
         map(data => Recipe.fromJSON(data)),
         catchError((error: any, caught:Observable<Recipe>) => {
@@ -41,9 +40,7 @@ export class RecipeService {
 
   topRecipes(): Observable<Recipe[]> {
     // Add safe, URL encoded search parameter
-    const options = {};
-
-    return this.http.get<Recipe[]>(this.baseUrl+'/recipes/top',options)
+    return this.http.get<Recipe[]>(this.baseUrl+'/recipes/top', httpOptions)
       .pipe(
         map(recipes => recipes.map(data => Recipe.fromJSON(data))),
         catchError((error: any, caught:Observable<Recipe[]>) => {
