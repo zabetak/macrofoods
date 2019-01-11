@@ -1,6 +1,7 @@
 export class Nutrient {
   tag: string;
-  name: string;
+  longName: string;
+  shortName: string;
   value: number;
   units: string;
 }

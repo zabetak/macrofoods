@@ -4,7 +4,8 @@ import java.math.BigDecimal;
 
 public class NutrientDTO {
 	private String tag;
-	private String name;
+	private String longName;
+	private String shortName;
 	private BigDecimal value;
 	private String units;
 
@@ -14,14 +15,6 @@ public class NutrientDTO {
 
 	public void setTag(String tag) {
 		this.tag = tag;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public BigDecimal getValue() {
@@ -38,6 +31,22 @@ public class NutrientDTO {
 
 	public void setUnits(String units) {
 		this.units = units;
+	}
+
+	public String getLongName() {
+		return longName;
+	}
+
+	public void setLongName(String longName) {
+		this.longName = longName;
+	}
+
+	public String getShortName() {
+		return shortName;
+	}
+
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
 	}
 
 }

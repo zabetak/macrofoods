@@ -70,6 +70,7 @@ public final class FoodsService {
 		selections.add(fgDescription.get(FoodGroupDescription_.shortDesc));
 		selections.add(nutrient.get(Nutrient_.tagName));
 		selections.add(nutrient.get(Nutrient_.nDesc));
+		selections.add(nutrient.get(Nutrient_.sDesc));
 		selections.add(fData.get(NutrientData_.amount));
 		selections.add(nutrient.get(Nutrient_.units));
 
@@ -119,11 +120,13 @@ public final class FoodsService {
 				}
 				String tag = t.get(3, String.class);
 				String ndesc = t.get(4, String.class);
-				BigDecimal amount = t.get(5, BigDecimal.class);
-				String units = t.get(6, String.class);
+				String sdesc = t.get(5, String.class);
+				BigDecimal amount = t.get(6, BigDecimal.class);
+				String units = t.get(7, String.class);
 				NutrientDTO nutrient = new NutrientDTO();
 				nutrient.setTag(tag);
-				nutrient.setName(ndesc);
+				nutrient.setLongName(ndesc);
+				nutrient.setShortName(sdesc);
 				nutrient.setValue(amount);
 				nutrient.setUnits(units);
 				nutrients.add(nutrient);

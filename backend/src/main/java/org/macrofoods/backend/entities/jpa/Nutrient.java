@@ -18,6 +18,8 @@ public class Nutrient {
 	private String tagName;
 	@Column(length = 60, nullable = false)
 	private String nDesc;
+	@Column(length = 30, nullable = true)
+	private String sDesc;
 	@Column(nullable = false)
 	private short valueScale;
 	@Column(precision = 6, scale = 0, nullable = false)
