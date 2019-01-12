@@ -1,34 +1,52 @@
-.fbs-recipe-list {
+
+.recipe-list {
   display: -webkit-flex; /* Safari */
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-start;
+  font-size: 15px;
 }
 
+.preview {
+  margin: 2px 2px 2px 2px;
+  background-color: #FFFFFF
+}
 
-.fbs-recipe-preview-container {
+.recipe-list .preview .container {
   width: 100%;
 }
 
-.fbs-recipe-preview img {
+
+
+.preview img {
   width: 100%;
-  height: 35%;
+
 }
 
 .fbs-recipe-overview {
   font-size: 13px;
 }
 
-.fbs-recipe-macros{
-  font-size: 10px;
-}
-
-.fbs-recipe-categories{
-  font-size: 10px;
-  text-transform: uppercase;
-}
 
 @media (min-width: 718px){
-  .fbs-recipe-preview {
-      width: 50%;
+  .recipe-list .preview {
+      width: 48%;
+      margin: 2px 2px 2px 2px;
+    }
+}
+
+
+@media (min-width: 1400px){
+  .recipe-list .preview {
+      width: 32%;
+      margin: 2px 2px 2px 2px;
+    }
+}
+
+
+@media (min-width: 1900px){
+  .recipe-list .preview {
+      width: 24.5%;
+      margin: 2px 2px 2px 2px;
     }
 }

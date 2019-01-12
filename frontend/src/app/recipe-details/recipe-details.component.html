@@ -1,7 +1,7 @@
 
 <div class="fbs-recipe-details" *ngIf="recipe">
   <h2>{{recipe.title}}</h2>
-  <div class="fbs-recipe-details-tags" *ngIf="recipe.tags">
+  <div class="tags" *ngIf="recipe.tags">
     <ul>
       <li *ngFor="let tag of recipe.tags">{{tag.description}}</li>
     </ul>
@@ -9,8 +9,9 @@
   <div class="fbs-recipe-details-container">
     <div class="fbs-recipe-details-main">
       <div class="fbs-recipe-details-overview">
-        <div class="fbs-recipe-details-macros" *ngIf="recipe.facts">
+        <div class="macros" *ngIf="recipe.facts">
           <app-nutrient-list
+          [useLongNames]="false"
           [nutrients]="[
           recipe.facts.energy(),
           recipe.facts.protein(),

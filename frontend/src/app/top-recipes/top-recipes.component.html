@@ -1,13 +1,13 @@
 <h2>Top Recipes</h2>
-<div class="fbs-recipe-list">
-  <div class="fbs-recipe-preview" *ngFor="let recipe of recipes ">
-    <div class="fbs-recipe-preview-container">
+<div class="recipe-list">
+  <div class="preview" *ngFor="let recipe of recipes ">
+    <div class="container">
       <a routerLink="/recipes/{{recipe.id}}"><img src="{{recipe.image}}"></a>
-      <div class="fbs-recipe-overview">
-        <h3 class="fbs-recipe-title"><a>{{recipe.title}}</a></h3>
+      <div class="overview">
+        <h3 class="title"><a>{{recipe.title}}</a></h3>
         <div>{{recipe.summary}}</div>
-        <div class="fbs-recipe-macros">
-          <app-nutrient-list [nutrients]="[
+        <div class="macros">
+          <app-nutrient-list [useLongNames]="false" [nutrients]="[
           recipe.facts.energy(),
           recipe.facts.protein(),
           recipe.facts.carbs(),
@@ -15,10 +15,10 @@
           ]">
           </app-nutrient-list>
         </div>
-        <div class="fbs-recipe-categories">
-          <span *ngFor="let tag of recipe.tags">
-            {{tag.description}}
-          </span>
+        <div class="tags" *ngIf="recipe.tags">
+          <ul>
+            <li *ngFor="let tag of recipe.tags">{{tag.description}}</li>
+          </ul>
         </div>
       </div>
     </div>

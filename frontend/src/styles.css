@@ -2,6 +2,7 @@ body {
   font-size: calc(14px + 6 * ((100vw - 320px) / 680));
   margin: 2em;
   font-weight: 400;
+  background-color: #FCFFF5;
 }
 
 h1, h2, h3 {
@@ -9,12 +10,12 @@ h1, h2, h3 {
 }
 
 h1 {
-  color: #369;
+  color: #193441;
   font-size: 3em;
   border: 10px;
   border-width: 0px 0px 4px 0px;
   border-style: solid;
-  border-color: #369;
+  border-color: #193441;
   margin: 0;
 }
 
@@ -51,16 +52,16 @@ input[type="text"], button {
   display: block;
 }
 
-.fbs-recipe-details-tags ul {
+.tags ul {
   padding: 0px 0px 5px 0px;
   margin: 0;
   border-width: 0px 0px 2px 0px;
   border-style: solid;
 }
 
-.fbs-recipe-details-tags li {
+.tags li {
   display: inline-block;
-  background-color: #369;
+  background-color: #91AA9D;
   color:#FFF;
   margin-right: 0.5em;
   padding: 0.2em;
@@ -68,24 +69,30 @@ input[type="text"], button {
   font-size: 0.8em;
 }
 
+.preview .tags ul {
+  border-width: 0;
+  border-style: none;
+}
+
 .fbs-recipe-details-container {
   margin: 5px 0px 0px 0px;
 }
 
-.fbs-recipe-details-macros ul {
+.macros ul {
   padding: 0;
+  margin: 1px 0 1px 0;
 }
 
-.fbs-recipe-details-macros li {
+.macros li {
   display: inline-block;
   margin-right: 0.5em;
   font-weight: 600;
   font-size: 0.95em;
 }
 
-.fbs-recipe-details-macros .nutrient .value,
-.fbs-recipe-details-macros .nutrient .units {
-  color: #369;
+.macros .nutrient .value,
+.macros .nutrient .units {
+  color: #3E606F;
 }
 
 
@@ -108,7 +115,7 @@ input[type="text"], button {
 
 .fbs-recipe-details-times .value,
 .fbs-recipe-details-times .unit {
-  color: #369;
+  color: #3E606F;
 }
 
 
@@ -169,7 +176,7 @@ input[type="text"], button {
 
 
 @media (min-width: 900px){
-  .fbs-recipe-details-macros {
+  .fbs-recipe-details .macros {
     display: none;
   }
 
@@ -194,3 +201,11 @@ input[type="text"], button {
      width: 27%;
     }
 }
+
+/*
+#FCFFF5
+#D1DBBD
+#91AA9D
+#3E606F
+#193441
+*/
