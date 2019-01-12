@@ -18,6 +18,7 @@ import { SearchTagsComponent } from './create-recipe/search-tags/search-tags.com
 import { RecipeDetailsComponent } from './recipe-details/recipe-details.component';
 import { NutrientListComponent } from './nutrient-list/nutrient-list.component';
 import { NutrientDetailsComponent } from './nutrient-details/nutrient-details.component';
+import { DisplayImageComponent } from './display-image/display-image.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { NutrientDetailsComponent } from './nutrient-details/nutrient-details.co
     SearchTagsComponent,
     RecipeDetailsComponent,
     NutrientListComponent,
-    NutrientDetailsComponent
+    NutrientDetailsComponent,
+    DisplayImageComponent
   ],
   imports: [
     BrowserModule,

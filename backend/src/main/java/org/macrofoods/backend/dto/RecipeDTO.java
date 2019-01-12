@@ -10,7 +10,7 @@ public final class RecipeDTO {
 	private short prepTime;
 	private short cookTime;
 	private short servings;
-	private String image;
+	private ImageDTO image;
 	private short difficulty;
 	private List<IngredientGroupDTO> ingGroups;
 	private List<StepGroupDTO> stepGroups;
@@ -64,11 +64,11 @@ public final class RecipeDTO {
 		this.cookTime = cookTime;
 	}
 
-	public String getImage() {
+	public ImageDTO getImage() {
 		return image;
 	}
 
-	public void setImage(String image) {
+	public void setImage(ImageDTO image) {
 		this.image = image;
 	}
 

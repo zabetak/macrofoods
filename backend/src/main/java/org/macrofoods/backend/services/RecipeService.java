@@ -9,6 +9,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
+import org.macrofoods.backend.dto.ImageDTO;
 import org.macrofoods.backend.dto.IngredientDTO;
 import org.macrofoods.backend.dto.IngredientGroupDTO;
 import org.macrofoods.backend.dto.RecipeDTO;
@@ -17,6 +18,7 @@ import org.macrofoods.backend.dto.StepGroupDTO;
 import org.macrofoods.backend.dto.TagDTO;
 import org.macrofoods.backend.entities.jpa.Difficulty;
 import org.macrofoods.backend.entities.jpa.Food;
+import org.macrofoods.backend.entities.jpa.Image;
 import org.macrofoods.backend.entities.jpa.Ingredient;
 import org.macrofoods.backend.entities.jpa.IngredientGroup;
 import org.macrofoods.backend.entities.jpa.IngredientGroupDescription;
@@ -49,7 +51,10 @@ public final class RecipeService {
 		eRecipe.setPrepTime(recipe.getPrepTime());
 		eRecipe.setDifficulty(Difficulty.values()[recipe.getDifficulty()]);
 		eRecipe.setServings(recipe.getServings());
-		eRecipe.setImage(recipe.getImage().getBytes());
+		Image img = new Image();
+		img.setData(recipe.getImage().getData().getBytes());
+		em.persist(img);
+		eRecipe.setImage(img);
 		em.persist(eRecipe);
 		RecipeDescription eDescription = new RecipeDescription();
 		eDescription.setRecipe(eRecipe);
@@ -163,9 +168,12 @@ public final class RecipeService {
 		Short prepTime = eRecipe.getPrepTime();
 		if (prepTime != null)
 			sample.setPrepTime(prepTime);
-		byte[] img = eRecipe.getImage();
-		if (img != null)
-			sample.setImage(new String(img));
+		Image img = eRecipe.getImage();
+		if (img != null) {
+			ImageDTO iDTO = new ImageDTO();
+			iDTO.setId(img.getId());
+			sample.setImage(iDTO);
+		}
 		Short servings = eRecipe.getServings();
 		if (servings != null)
 			sample.setServings(servings);

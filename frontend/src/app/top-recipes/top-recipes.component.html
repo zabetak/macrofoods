@@ -2,7 +2,9 @@
 <div class="recipe-list">
   <div class="preview" *ngFor="let recipe of recipes ">
     <div class="container">
-      <a routerLink="/recipes/{{recipe.id}}"><img src="{{recipe.image}}"></a>
+      <a routerLink="/recipes/{{recipe.id}}">
+        <app-display-image [image]="recipe.image"></app-display-image>
+      </a>
       <div class="overview">
         <h3 class="title"><a>{{recipe.title}}</a></h3>
         <div>{{recipe.summary}}</div>

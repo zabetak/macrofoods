@@ -43,6 +43,12 @@
 		<description></description>
 		<servlet-class>org.macrofoods.backend.servlets.GetRecipeServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>ImagesServlet</servlet-name>
+		<display-name>ImagesServlet</display-name>
+		<description></description>
+		<servlet-class>org.macrofoods.backend.servlets.ImagesServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>TestTransaction</servlet-name>
 		<url-pattern>/v1/tests/transaction</url-pattern>
@@ -66,6 +72,10 @@
 	<servlet-mapping>
 		<servlet-name>GetRecipeServlet</servlet-name>
 		<url-pattern>/v1/recipes/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ImagesServlet</servlet-name>
+		<url-pattern>/v1/images/*</url-pattern>
 	</servlet-mapping>
 	<resource-ref>
 		<description>DB Connection</description>

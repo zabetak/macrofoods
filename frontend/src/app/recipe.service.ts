@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Recipe } from './recipe';
+import { Image } from './image';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -36,6 +37,18 @@ export class RecipeService {
             return of([]);
           })
     ).subscribe( u => {console.log(u);});
+  }
+
+  loadImage(image: Image): Observable<Image> {
+    return this.http.get<Image>(this.baseUrl+'/images/'+image.id, httpOptions)
+      .pipe(
+        catchError(
+          (error: any, caught:Observable<Image>) => {
+            console.log(error);
+            return of(new Image());
+          }
+        )
+      );
   }
 
   topRecipes(): Observable<Recipe[]> {

@@ -7,12 +7,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
@@ -36,8 +38,8 @@ public class Recipe {
 	private Difficulty difficulty;
 	@Column
 	private Short servings;
-	@Column(nullable = false)
-	private byte[] image;
+	@ManyToOne(targetEntity = Image.class, fetch = FetchType.LAZY)
+	private Image image;
 	@OneToMany(mappedBy = "recipe", targetEntity = RecipeDescription.class)
 	private List<RecipeDescription> descriptions;
 	@OneToMany(mappedBy = "recipe", targetEntity = IngredientGroup.class)
@@ -68,11 +70,11 @@ public class Recipe {
 		this.likes = likes;
 	}
 
-	public byte[] getImage() {
+	public Image getImage() {
 		return image;
 	}
 
-	public void setImage(byte[] image) {
+	public void setImage(Image image) {
 		this.image = image;
 	}
 

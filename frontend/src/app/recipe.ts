@@ -3,6 +3,7 @@ import { IngredientGroup } from './ingredient-group';
 import { StepGroup } from './step-group';
 import { Tag } from './tag';
 import { NutritionalFacts } from './nutritional-facts';
+import { Image } from './image';
 
 export class Recipe {
   id: number;
@@ -15,7 +16,7 @@ export class Recipe {
   servings: number = 2;
   ingGroups: IngredientGroup[] = [];
   stepGroups: StepGroup[] = [];
-  image: string;
+  image: Image;
   tags: Tag[] = [];
   facts: NutritionalFacts;
 
