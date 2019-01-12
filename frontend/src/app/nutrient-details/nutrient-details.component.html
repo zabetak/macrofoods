@@ -1,5 +1,6 @@
 <div class="nutrient" *ngIf="nutrient">
-  <span class="name">{{nutrient.longName}}</span>
+  <span class="name" *ngIf="useLongNames">{{nutrient.longName}}</span>
+  <span class="name" *ngIf="!useLongNames">{{nutrient.shortName}}</span>
   <span class="value">{{nutrient.value | number : '1.0-1'}}</span>
   <span class="units">{{nutrient.units}}</span>
 </div>

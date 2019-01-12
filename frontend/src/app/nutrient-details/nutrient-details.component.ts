@@ -8,6 +8,8 @@ import { Nutrient } from '../nutrient';
 })
 export class NutrientDetailsComponent implements OnInit {
   private n: Nutrient;
+  @Input()
+  useLongNames: boolean = true;
 
   constructor() { }
 

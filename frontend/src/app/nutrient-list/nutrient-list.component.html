@@ -1,5 +1,8 @@
 <ul *ngIf="nutrients">
   <li *ngFor="let n of nutrients">
-    <app-nutrient-details [nutrient]="n"></app-nutrient-details>
+    <app-nutrient-details
+      [useLongNames]="useLongNames"
+      [nutrient]="n">
+  </app-nutrient-details>
   </li>
 </ul>
