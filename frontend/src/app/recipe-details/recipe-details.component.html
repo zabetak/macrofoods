@@ -1,6 +1,6 @@
 
-<div class="fbs-recipe-details" *ngIf="recipe">
-  <h2>{{recipe.title}}</h2>
+<div class="fbs-recipe-details" *ngIf="!editMode && recipe">
+  <h2>{{recipe.title}}<button (click)="edit()">Edit</button></h2>
   <div class="tags" *ngIf="recipe.tags">
     <ul>
       <li *ngFor="let tag of recipe.tags">{{tag.description}}</li>
@@ -19,7 +19,7 @@
           recipe.facts.fat()]">
         </app-nutrient-list>
       </div>
-      <app-display-image [image]="recipe.image"></app-display-image>      
+      <app-display-image [image]="recipe.image"></app-display-image>
       <div class="fbs-recipe-details-times" >
         <ul>
           <li>
@@ -127,3 +127,4 @@
   </div>
 </div>
 </div>
+<app-create-recipe [irecipe]="recipe" *ngIf="editMode"></app-create-recipe>

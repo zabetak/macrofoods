@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Recipe } from '../recipe';
 import { DIFFICULTIES} from '../difficulty';
 import { RecipeService } from '../recipe.service';
@@ -9,17 +9,24 @@ import { RecipeService } from '../recipe.service';
   styleUrls: ['./create-recipe.component.css']
 })
 export class CreateRecipeComponent implements OnInit {
-  recipe: Recipe;
+  recipe: Recipe = new Recipe();
   difficulties = DIFFICULTIES;
   constructor(private recipeService: RecipeService) { }
 
   ngOnInit() {
-    this.recipe = new Recipe();
-    this.recipe.title = "New recipe";
+
+  }
+
+  @Input()
+  set irecipe(irecipe: Recipe) {
+    this.recipe = irecipe;
   }
 
   save(){
-    this.recipeService.save(this.recipe);
+    if(this.recipe.id == null)
+      this.recipeService.save(this.recipe);
+    else
+      this.recipeService.update(this.recipe);
   }
 
 }

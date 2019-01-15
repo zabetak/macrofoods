@@ -2,6 +2,7 @@ package org.macrofoods.backend.entities.jpa;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,7 +24,7 @@ public class Step {
 	private StepGroup group;
 	@Column(nullable = true)
 	private Integer time;
-	@OneToMany(mappedBy = "step", targetEntity = StepDescription.class)
+	@OneToMany(mappedBy = "step", targetEntity = StepDescription.class, cascade = CascadeType.REMOVE)
 	private List<StepDescription> descriptions;
 
 	public Step() {

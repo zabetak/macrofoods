@@ -2,6 +2,7 @@ package org.macrofoods.backend.entities.jpa;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,9 +22,9 @@ public class StepGroup {
 	private Short seq;
 	@ManyToOne(optional = false)
 	private Recipe recipe;
-	@OneToMany(mappedBy = "group", targetEntity = StepGroupDescription.class)
+	@OneToMany(mappedBy = "group", targetEntity = StepGroupDescription.class, cascade = CascadeType.REMOVE)
 	private List<StepGroupDescription> descriptions;
-	@OneToMany(mappedBy = "group", targetEntity = Step.class)
+	@OneToMany(mappedBy = "group", targetEntity = Step.class, cascade = CascadeType.REMOVE)
 	private List<Step> steps;
 
 	public StepGroup() {

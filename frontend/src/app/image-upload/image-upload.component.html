@@ -1,9 +1,4 @@
-<div *ngIf="!selectedFile">
-  <input #imageInput
+<input #imageInput
          type="file"
          accept="image/*"
          (change)="processFile(imageInput)">
-</div>
-<div *ngIf="selectedFile">
-<img src="{{selectedFile.src}}" width = "450em" height="450em">
-</div>

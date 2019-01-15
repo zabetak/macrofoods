@@ -1,6 +1,7 @@
 <h2>Create recipe</h2>
 <div><label>Title:<input [(ngModel)]="recipe.title"></label><div>
-<app-image-upload (imageUpload)="recipe.image=$event"></app-image-upload>
+<app-image-upload (imageUpload)="recipe.image=$event" ></app-image-upload>
+<app-display-image (loadedImage)="recipe.image=$event" [image]="recipe.image" *ngIf="recipe.image"></app-display-image>
 <div><label>Summary:<input [(ngModel)]="recipe.summary"></label></div>
 <div>
   <label>Prep time:<input [(ngModel)]="recipe.prepTime" placeholder="10"></label>

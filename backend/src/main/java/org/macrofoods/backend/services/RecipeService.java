@@ -44,26 +44,66 @@ public final class RecipeService {
 		this.fs = new FoodsService(em, LangCode.EN);
 	}
 
-	public int saveRecipe(RecipeDTO recipe) {
+	public int saveRecipe(RecipeDTO dRecipe) {
 		em.getTransaction().begin();
 		Recipe eRecipe = new Recipe();
-		eRecipe.setCookTime(recipe.getCookTime());
-		eRecipe.setPrepTime(recipe.getPrepTime());
-		eRecipe.setDifficulty(Difficulty.values()[recipe.getDifficulty()]);
-		eRecipe.setServings(recipe.getServings());
-		Image img = new Image();
-		img.setData(recipe.getImage().getData().getBytes());
+		updateEntityFromDTO(eRecipe, dRecipe);
+		em.getTransaction().commit();
+		return eRecipe.getId();
+	}
+
+	public int updateRecipe(RecipeDTO dRecipe) {
+		em.getTransaction().begin();
+		Recipe eRecipe = em.find(Recipe.class, dRecipe.getId());
+		for (RecipeDescription eDescription : eRecipe.getDescriptions())
+			em.remove(eDescription);
+		for (IngredientGroup iGroup : eRecipe.getIngGroups())
+			em.remove(iGroup);
+		for (StepGroup sGroup : eRecipe.getStpGroups())
+			em.remove(sGroup);
+		eRecipe.getTags().clear();
+
+		updateEntityFromDTO(eRecipe, dRecipe);
+		em.getTransaction().commit();
+		return eRecipe.getId();
+	}
+
+	public RecipeDTO findRecipe(int id) {
+		Recipe eRecipe = em.find(Recipe.class, id);
+		return eRecipe == null ? null : toDTO(eRecipe);
+	}
+
+	public List<RecipeDTO> topRecipes() {
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<Recipe> q = builder.createQuery(Recipe.class);
+		q.from(Recipe.class);
+		TypedQuery<Recipe> query = em.createQuery(q);
+		List<RecipeDTO> recipes = new ArrayList<RecipeDTO>();
+		for (Recipe eRecipe : query.getResultList())
+			recipes.add(toDTO(eRecipe));
+		return recipes;
+	}
+
+	private void updateEntityFromDTO(Recipe eRecipe, RecipeDTO dRecipe) {
+		eRecipe.setCookTime(dRecipe.getCookTime());
+		eRecipe.setPrepTime(dRecipe.getPrepTime());
+		eRecipe.setDifficulty(Difficulty.values()[dRecipe.getDifficulty()]);
+		eRecipe.setServings(dRecipe.getServings());
+		Image img = eRecipe.getImage();
+		img.setData(dRecipe.getImage().getData().getBytes());
 		em.persist(img);
 		eRecipe.setImage(img);
 		em.persist(eRecipe);
+
 		RecipeDescription eDescription = new RecipeDescription();
 		eDescription.setRecipe(eRecipe);
-		eDescription.setTitle(recipe.getTitle());
-		eDescription.setSummary(recipe.getSummary());
-		eDescription.setConclusion(recipe.getConclusion());
+		eDescription.setTitle(dRecipe.getTitle());
+		eDescription.setSummary(dRecipe.getSummary());
+		eDescription.setConclusion(dRecipe.getConclusion());
 		eDescription.setLangCode(lCode);
 		em.persist(eDescription);
-		List<IngredientGroupDTO> ingGroups = recipe.getIngGroups();
+
+		List<IngredientGroupDTO> ingGroups = dRecipe.getIngGroups();
 		for (short i = 0; i < ingGroups.size(); i++) {
 			String groupName = ingGroups.get(i).getName();
 			IngredientGroup eiGroup = new IngredientGroup();
@@ -88,7 +128,7 @@ public final class RecipeService {
 			}
 		}
 
-		List<StepGroupDTO> stepGroupsDTO = recipe.getStepGroups();
+		List<StepGroupDTO> stepGroupsDTO = dRecipe.getStepGroups();
 		for (short i = 0; i < stepGroupsDTO.size(); i++) {
 			String groupName = stepGroupsDTO.get(i).getName();
 			StepGroup eGroup = new StepGroup();
@@ -114,8 +154,8 @@ public final class RecipeService {
 				em.persist(esDescription);
 			}
 		}
-
-		for (TagDTO tagDTO : recipe.getTags()) {
+		// TODO Check and fix the code below
+		for (TagDTO tagDTO : dRecipe.getTags()) {
 			Tag tag;
 			if (tagDTO.getId() == -1) {
 				tag = new Tag();
@@ -138,24 +178,6 @@ public final class RecipeService {
 			}
 			eRecipe.getTags().add(tag);
 		}
-		em.getTransaction().commit();
-		return eRecipe.getId();
-	}
-
-	public RecipeDTO findRecipe(int id) {
-		Recipe eRecipe = em.find(Recipe.class, id);
-		return eRecipe == null ? null : toDTO(eRecipe);
-	}
-
-	public List<RecipeDTO> topRecipes() {
-		CriteriaBuilder builder = em.getCriteriaBuilder();
-		CriteriaQuery<Recipe> q = builder.createQuery(Recipe.class);
-		q.from(Recipe.class);
-		TypedQuery<Recipe> query = em.createQuery(q);
-		List<RecipeDTO> recipes = new ArrayList<RecipeDTO>();
-		for (Recipe eRecipe : query.getResultList())
-			recipes.add(toDTO(eRecipe));
-		return recipes;
 	}
 
 	private RecipeDTO toDTO(Recipe eRecipe) {

@@ -12,12 +12,17 @@ import { RecipeService } from '../recipe.service';
 })
 export class RecipeDetailsComponent implements OnInit {
   recipe: Recipe;
+  editMode: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private recipeService: RecipeService,
     private location: Location
   ) { }
+
+  edit():void {
+    this.editMode=true;
+  }
 
   ngOnInit() {
     const id = +this.route.snapshot.paramMap.get('id');

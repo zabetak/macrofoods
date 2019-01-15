@@ -39,6 +39,17 @@ export class RecipeService {
     ).subscribe( u => {console.log(u);});
   }
 
+  update(recipe: Recipe){
+    this.http.put<Recipe>(this.baseUrl+'/recipes/'+recipe.id, recipe, httpOptions)
+      .pipe(
+        catchError(
+          (error: any, caught:Observable<Recipe>) => {
+            console.log(error);
+            return of([]);
+          })
+    ).subscribe( u => {console.log(u);});
+  }
+
   loadImage(image: Image): Observable<Image> {
     return this.http.get<Image>(this.baseUrl+'/images/'+image.id, httpOptions)
       .pipe(

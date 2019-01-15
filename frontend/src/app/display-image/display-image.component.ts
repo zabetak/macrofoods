@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Image } from '../image';
 import { RecipeService } from '../recipe.service';
 
@@ -11,6 +11,9 @@ export class DisplayImageComponent implements OnInit {
 
   data: string;
 
+  @Output()
+  loadedImage:EventEmitter<Image> = new EventEmitter<Image>();
+
   constructor(private recipeService: RecipeService) {
 
   }
@@ -20,9 +23,14 @@ export class DisplayImageComponent implements OnInit {
 
   @Input()
   set image(image:Image) {
-    this.recipeService.loadImage(image).subscribe(imgData => {
-      this.data=imgData.data;
-    });
+    if(image.data==null){
+      this.recipeService.loadImage(image).subscribe(imgData => {
+        this.data=imgData.data;
+        this.loadedImage.emit(imgData);
+      });
+    } else {
+      this.data=image.data;
+    }
   }
 
 }

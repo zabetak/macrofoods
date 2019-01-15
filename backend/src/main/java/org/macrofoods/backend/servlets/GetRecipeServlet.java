@@ -1,5 +1,6 @@
 package org.macrofoods.backend.servlets;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 
 import javax.persistence.EntityManager;
@@ -11,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.macrofoods.backend.dto.RecipeDTO;
 import org.macrofoods.backend.services.RecipeService;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
 /**
@@ -45,6 +48,32 @@ public final class GetRecipeServlet extends EMServlet {
 		} finally {
 			if (em != null)
 				em.close();
+		}
+	}
+
+	@Override
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		resp.setContentType("application/json");
+		resp.setCharacterEncoding("UTF-8");
+		Integer id = Integer.parseInt(req.getPathInfo().substring(1));
+		BufferedReader br = null;
+		EntityManager em = null;
+		try {
+			br = req.getReader();
+			ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
+					false);
+			ObjectReader reader = mapper.readerFor(RecipeDTO.class);
+			RecipeDTO recipe = reader.readValue(br);
+			em = newEntityManager();
+			RecipeService service = new RecipeService(em);
+			service.updateRecipe(recipe);
+			resp.getWriter().write("{\"operation\":\"updateRecipe\", \"status\":\"success\", \"recipeid\":\"" + id
+					+ "\", \"recipetitle\":\"" + recipe.getTitle() + "\"}");
+		} finally {
+			if (em != null)
+				em.close();
+			if (br != null)
+				br.close();
 		}
 	}
 

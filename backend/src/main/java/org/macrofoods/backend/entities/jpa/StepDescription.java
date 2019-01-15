@@ -1,5 +1,6 @@
 package org.macrofoods.backend.entities.jpa;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,7 +17,7 @@ public class StepDescription {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sdescription_generator")
 	@SequenceGenerator(name = "sdescription_generator", sequenceName = "step_description_seq", allocationSize = 10)
 	private Integer id;
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, cascade = CascadeType.REMOVE)
 	private Step step;
 	@Column(nullable = false, length = 1000)
 	private String description;
