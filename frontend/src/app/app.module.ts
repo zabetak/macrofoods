@@ -2,12 +2,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'
 import { HttpClientModule }    from '@angular/common/http';
-
 import { AppComponent } from './app.component';
 import { FoodsComponent } from './foods/foods.component';
 import { FoodsService } from './foods.service';
 import { RecipeService } from './recipe.service';
 import { TagService } from './tag.service';
+import { SessionService } from './session.service';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { CreateRecipeComponent } from './create-recipe/create-recipe.component';
 import { ManageIngredientsComponent } from './create-recipe/manage-ingredients/manage-ingredients.component';
@@ -19,6 +19,8 @@ import { RecipeDetailsComponent } from './recipe-details/recipe-details.componen
 import { NutrientListComponent } from './nutrient-list/nutrient-list.component';
 import { NutrientDetailsComponent } from './nutrient-details/nutrient-details.component';
 import { DisplayImageComponent } from './display-image/display-image.component';
+import { LoginComponent } from './login/login.component';
+import { httpInterceptorProviders } from './http-interceptors/index';
 
 
 @NgModule({
@@ -34,7 +36,8 @@ import { DisplayImageComponent } from './display-image/display-image.component';
     RecipeDetailsComponent,
     NutrientListComponent,
     NutrientDetailsComponent,
-    DisplayImageComponent
+    DisplayImageComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +48,9 @@ import { DisplayImageComponent } from './display-image/display-image.component';
   providers: [
     FoodsService,
     RecipeService,
-    TagService
+    TagService,
+    SessionService,
+    httpInterceptorProviders
   ],
   bootstrap: [AppComponent]
 })

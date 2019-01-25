@@ -4,46 +4,33 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 import javax.persistence.EntityManager;
-import javax.servlet.Servlet;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.macrofoods.backend.dto.RecipeDTO;
-import org.macrofoods.backend.services.RecipeService;
+import org.macrofoods.backend.dto.UserDTO;
+import org.macrofoods.backend.services.AuthenticationService;
 import org.macrofoods.backend.services.TokenService;
 
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 
 /**
+ * Servlet implementation class AuthenticationServlet
  */
-public final class SaveRecipeServlet extends EMServlet implements Servlet {
+public final class TokenServlet extends EMServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Default constructor.
 	 */
-	public SaveRecipeServlet() {
-		super();
+	public TokenServlet() {
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String token = request.getHeader("Authorization");
-		try {
-			TokenService.INSTANCE.verify(token);
-		} catch (JWTVerificationException ve) {
-			response.sendError(401);
-			throw ve;
-		}
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		BufferedReader br = null;
@@ -52,13 +39,15 @@ public final class SaveRecipeServlet extends EMServlet implements Servlet {
 			br = request.getReader();
 			ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
 					false);
-			ObjectReader reader = mapper.readerFor(RecipeDTO.class);
-			RecipeDTO recipe = reader.readValue(br);
-			em = newEntityManager();
-			RecipeService service = new RecipeService(em);
-			Integer id = service.saveRecipe(recipe);
-			response.getWriter().write("{\"operation\":\"saveRecipe\", \"status\":\"success\", \"recipeid\":\"" + id
-					+ "\", \"recipetitle\":\"" + recipe.getTitle() + "\"}");
+			ObjectReader reader = mapper.readerFor(UserDTO.class);
+			UserDTO user = reader.readValue(br);
+			AuthenticationService service = new AuthenticationService(newEntityManager());
+			boolean isAdmin = service.isAdmin(user.getUsername(), user.getPassword());
+			if (!isAdmin)
+				response.sendError(401);
+			else
+				response.getWriter().write("{" + "\"token\":\"" + TokenService.INSTANCE.create() + "\","
+						+ "\"expiresIn\":\"" + TokenService.INSTANCE.expiresIn() + "\"" + "}");
 		} finally {
 			if (em != null)
 				em.close();

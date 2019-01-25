@@ -49,6 +49,12 @@
 		<description></description>
 		<servlet-class>org.macrofoods.backend.servlets.ImagesServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>TokenServlet</servlet-name>
+		<display-name>TokenServlet</display-name>
+		<description></description>
+		<servlet-class>org.macrofoods.backend.servlets.TokenServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>TestTransaction</servlet-name>
 		<url-pattern>/v1/tests/transaction</url-pattern>
@@ -76,6 +82,10 @@
 	<servlet-mapping>
 		<servlet-name>ImagesServlet</servlet-name>
 		<url-pattern>/v1/images/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>TokenServlet</servlet-name>
+		<url-pattern>/v1/tokens</url-pattern>
 	</servlet-mapping>
 	<resource-ref>
 		<description>DB Connection</description>

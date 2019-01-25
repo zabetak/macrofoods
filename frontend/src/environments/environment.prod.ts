@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'http://localhost:8080/macrofoods/v1'
+  baseUrl: 'http://82.124.117.162:8080/macrofoods/v1'
 };

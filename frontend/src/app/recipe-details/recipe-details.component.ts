@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Recipe } from '../recipe';
 import { RecipeService } from '../recipe.service';
+import { SessionService } from '../session.service';
 
 
 @Component({
@@ -13,10 +14,12 @@ import { RecipeService } from '../recipe.service';
 export class RecipeDetailsComponent implements OnInit {
   recipe: Recipe;
   editMode: boolean = false;
+  allowEdit: boolean;
 
   constructor(
     private route: ActivatedRoute,
     private recipeService: RecipeService,
+    private sessionService: SessionService,
     private location: Location
   ) { }
 
@@ -27,6 +30,7 @@ export class RecipeDetailsComponent implements OnInit {
   ngOnInit() {
     const id = +this.route.snapshot.paramMap.get('id');
     this.recipeService.getRecipe(id).subscribe(recipe => this.recipe = recipe);
+    this.allowEdit = this.sessionService.isTokenValid();
   }
 
 }

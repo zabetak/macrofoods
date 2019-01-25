@@ -1,6 +1,6 @@
 
 <div class="fbs-recipe-details" *ngIf="!editMode && recipe">
-  <h2>{{recipe.title}}<button (click)="edit()">Edit</button></h2>
+  <h2>{{recipe.title}}<button (click)="edit()" *ngIf="allowEdit">Edit</button></h2>
   <div class="tags" *ngIf="recipe.tags">
     <ul>
       <li *ngFor="let tag of recipe.tags">{{tag.description}}</li>

@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.macrofoods.backend.dto.RecipeDTO;
 import org.macrofoods.backend.services.RecipeService;
+import org.macrofoods.backend.services.TokenService;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -53,6 +55,13 @@ public final class GetRecipeServlet extends EMServlet {
 
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String token = req.getHeader("Authorization");
+		try {
+			TokenService.INSTANCE.verify(token);
+		} catch (JWTVerificationException ve) {
+			resp.sendError(401);
+			throw ve;
+		}
 		resp.setContentType("application/json");
 		resp.setCharacterEncoding("UTF-8");
 		Integer id = Integer.parseInt(req.getPathInfo().substring(1));

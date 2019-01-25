@@ -1,0 +1,8 @@
+<div *ngIf="!isLoggedIn()">
+  <label>Username:<input type="text" [(ngModel)]="user.username" placeholder="jeff.healthy@gmail.com"></label>
+  <label>Password:<input type="password" [(ngModel)]="user.password" placeholder="myPassword"></label>
+  <input type="button" value="Sign in" (click)="login()">
+</div>
+<div *ngIf="isLoggedIn()">
+  <input type="button" value="Sign out" (click)="logout()">
+</div>
