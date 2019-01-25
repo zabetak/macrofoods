@@ -29,7 +29,7 @@ export class RecipeService {
   }
 
   save(recipe: Recipe){
-    this.http.post<Recipe>(this.baseUrl+'/recipes/save', recipe, httpOptions)
+    this.http.post<Recipe>(this.baseUrl+'/recipes/', recipe, httpOptions)
       .pipe(
         catchError(
           (error: any, caught:Observable<Recipe>) => {

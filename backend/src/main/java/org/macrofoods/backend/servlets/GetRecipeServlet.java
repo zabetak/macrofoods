@@ -32,6 +32,42 @@ public final class GetRecipeServlet extends EMServlet {
 	}
 
 	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String token = request.getHeader("Authorization");
+		try {
+			TokenService.INSTANCE.verify(token);
+		} catch (JWTVerificationException ve) {
+			response.sendError(401);
+			throw ve;
+		}
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		BufferedReader br = null;
+		EntityManager em = null;
+		try {
+			br = request.getReader();
+			ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
+					false);
+			ObjectReader reader = mapper.readerFor(RecipeDTO.class);
+			RecipeDTO recipe = reader.readValue(br);
+			em = newEntityManager();
+			RecipeService service = new RecipeService(em);
+			Integer id = service.saveRecipe(recipe);
+			response.getWriter().write("{\"operation\":\"saveRecipe\", \"status\":\"success\", \"recipeid\":\"" + id
+					+ "\", \"recipetitle\":\"" + recipe.getTitle() + "\"}");
+		} finally {
+			if (em != null)
+				em.close();
+			if (br != null)
+				br.close();
+		}
+	}
+
+	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */

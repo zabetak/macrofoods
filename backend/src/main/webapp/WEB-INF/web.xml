@@ -20,12 +20,6 @@
 		<servlet-class>org.macrofoods.backend.servlets.FoodsServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>SaveRecipeServlet</servlet-name>
-		<display-name>SaveRecipeServlet</display-name>
-		<description></description>
-		<servlet-class>org.macrofoods.backend.servlets.SaveRecipeServlet</servlet-class>
-	</servlet>
-	<servlet>
 		<servlet-name>TopRecipesServlet</servlet-name>
 		<display-name>TopRecipesServlet</display-name>
 		<description></description>
@@ -62,10 +56,6 @@
 	<servlet-mapping>
 		<servlet-name>Foods</servlet-name>
 		<url-pattern>/v1/foods</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>SaveRecipeServlet</servlet-name>
-		<url-pattern>/v1/recipes/save</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>TopRecipesServlet</servlet-name>
