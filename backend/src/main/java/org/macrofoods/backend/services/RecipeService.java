@@ -89,7 +89,9 @@ public final class RecipeService {
 		eRecipe.setPrepTime(dRecipe.getPrepTime());
 		eRecipe.setDifficulty(Difficulty.values()[dRecipe.getDifficulty()]);
 		eRecipe.setServings(dRecipe.getServings());
-		Image img = eRecipe.getImage();
+		Image img = new Image();
+		if (eRecipe.getImage() != null)
+			img = eRecipe.getImage();
 		img.setData(dRecipe.getImage().getData().getBytes());
 		em.persist(img);
 		eRecipe.setImage(img);
