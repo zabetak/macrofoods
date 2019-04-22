@@ -34,6 +34,7 @@ import org.macrofoods.backend.entities.jpa.Nutrient;
 import org.macrofoods.backend.entities.jpa.NutrientData;
 import org.macrofoods.backend.entities.jpa.NutrientData_;
 import org.macrofoods.backend.entities.jpa.Nutrient_;
+import org.macrofoods.backend.servlets.dsl.DslQuery;
 
 public final class FoodsService {
 
@@ -84,18 +85,18 @@ public final class FoodsService {
 		foodByDescription = em.createQuery(q);
 	}
 
-	public FoodDTO findFood(int id) {
+	public FoodDTO findFood(int id, DslQuery dslQuery) {
 
 		foodById.setParameter(FOOD_ID_PARAM, id);
-		return buildFoodDTO(foodById).get(0);
+		return buildFoodDTO(foodById, dslQuery).get(0);
 	}
 
 	public List<FoodDTO> findFoods(String descriptionPattern) {
 		foodByDescription.setParameter(FOOD_DESC_PARAM, descriptionPattern);
-		return buildFoodDTO(foodByDescription);
+		return buildFoodDTO(foodByDescription, null);
 	}
 
-	private List<FoodDTO> buildFoodDTO(TypedQuery<Tuple> query) {
+	private List<FoodDTO> buildFoodDTO(TypedQuery<Tuple> query, DslQuery dslQuery) {
 		// TODO The following inefficient way of building the response object can
 		// most likely be avoided by a smarter TypedQuery.
 		Map<Integer, List<Tuple>> nutrientsByFood = new HashMap<Integer, List<Tuple>>();
@@ -110,28 +111,55 @@ public final class FoodsService {
 
 		List<FoodDTO> foods = new ArrayList<FoodDTO>();
 		for (List<Tuple> nutrientsTuples : nutrientsByFood.values()) {
+
 			List<NutrientDTO> nutrients = new ArrayList<NutrientDTO>();
 			FoodDTO fd = new FoodDTO();
+			boolean addedFood = false;
 			for (Tuple t : nutrientsTuples) {
-				if (nutrients.isEmpty()) {
+				if (!addedFood) {
 					fd.setId(t.get(0, Integer.class));
 					fd.setDescription(t.get(1, String.class));
 					fd.setCategory(t.get(2, String.class));
+					addedFood = true;
 				}
-				String tag = t.get(3, String.class);
-				String ndesc = t.get(4, String.class);
-				String sdesc = t.get(5, String.class);
-				BigDecimal amount = t.get(6, BigDecimal.class);
-				String units = t.get(7, String.class);
-				NutrientDTO nutrient = new NutrientDTO();
-				nutrient.setTag(tag);
-				nutrient.setLongName(ndesc);
-				nutrient.setShortName(sdesc);
-				nutrient.setValue(amount);
-				nutrient.setUnits(units);
-				nutrients.add(nutrient);
+				DslQuery subQuery = dslQuery.subQuery("nutrients");
+				if (subQuery != null) {
+
+					NutrientDTO nutrient = new NutrientDTO();
+					String tag = t.get(3, String.class);
+					if (subQuery.matches("tag")) {
+						nutrient.setTag(tag);
+					}
+					if (!subQuery.satisfies("tag", tag))
+						continue;
+					String ndesc = t.get(4, String.class);
+					if (subQuery.matches("longname")) {
+						nutrient.setLongName(ndesc);
+					}
+					if (!subQuery.satisfies("longname", ndesc))
+						continue;
+					String sdesc = t.get(5, String.class);
+					if (subQuery.matches("shortname")) {
+						nutrient.setShortName(sdesc);
+					}
+					if (!subQuery.satisfies("shortname", sdesc))
+						continue;
+					BigDecimal amount = t.get(6, BigDecimal.class);
+					if (subQuery.matches("amount")) {
+						nutrient.setValue(amount);
+					}
+					if (!subQuery.satisfies("amount", amount))
+						continue;
+					String units = t.get(7, String.class);
+					if (subQuery.matches("units")) {
+						nutrient.setUnits(units);
+					}
+					if (!subQuery.satisfies("units", units))
+						continue;
+					nutrients.add(nutrient);
+				}
 			}
-			if (!nutrients.isEmpty()) {
+			if (addedFood) {
 				NutritionalFactsDTO facts = new NutritionalFactsDTO();
 				facts.setNutrients(nutrients);
 				fd.setFacts(facts);

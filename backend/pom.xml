@@ -62,29 +62,65 @@
 	</dependencies>
 	<build>
 		<finalName>backend</finalName>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.tomcat.maven</groupId>
-					<artifactId>tomcat7-maven-plugin</artifactId>
-					<version>2.2</version>
-					<configuration>
-						<server>Tomcat-localhost</server>
-						<!-- <url>${tomcat.deploy.url}</url> -->
-						<url>http://localhost:8080/manager/text</url>
-						<path>/macrofoods</path>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.7.0</version>
-					<configuration>
-						<source>1.9</source>
-						<target>1.9</target>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<server>Tomcat-localhost</server>
+					<!-- <url>${tomcat.deploy.url}</url> -->
+					<url>http://localhost:8080/manager/text</url>
+					<path>/macrofoods</path>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.7.0</version>
+				<configuration>
+					<source>1.9</source>
+					<target>1.9</target>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>javacc-maven-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<id>javacc</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>javacc</goal>
+						</goals>
+						<configuration>
+							<sourceDirectory>${project.basedir}/src/main/java/org/macrofoods/backend/servlets/dsl</sourceDirectory>
+							<outputDirectory>${project.build.directory}/generated-sources/javacc</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/generated-sources/javacc/</source>
+								<source>${project.build.directory}/generated-sources/annotations/</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 </project>

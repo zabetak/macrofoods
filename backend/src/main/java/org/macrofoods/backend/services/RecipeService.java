@@ -31,6 +31,7 @@ import org.macrofoods.backend.entities.jpa.StepGroup;
 import org.macrofoods.backend.entities.jpa.StepGroupDescription;
 import org.macrofoods.backend.entities.jpa.Tag;
 import org.macrofoods.backend.entities.jpa.TagDescription;
+import org.macrofoods.backend.servlets.dsl.DslQuery;
 
 public final class RecipeService {
 
@@ -70,17 +71,17 @@ public final class RecipeService {
 
 	public RecipeDTO findRecipe(int id) {
 		Recipe eRecipe = em.find(Recipe.class, id);
-		return eRecipe == null ? null : toDTO(eRecipe);
+		return eRecipe == null ? null : toDTO(eRecipe, null);
 	}
 
-	public List<RecipeDTO> topRecipes() {
+	public List<RecipeDTO> topRecipes(DslQuery dslQuery) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Recipe> q = builder.createQuery(Recipe.class);
 		q.from(Recipe.class);
 		TypedQuery<Recipe> query = em.createQuery(q);
 		List<RecipeDTO> recipes = new ArrayList<RecipeDTO>();
 		for (Recipe eRecipe : query.getResultList())
-			recipes.add(toDTO(eRecipe));
+			recipes.add(toDTO(eRecipe, dslQuery));
 		return recipes;
 	}
 
@@ -182,49 +183,74 @@ public final class RecipeService {
 		}
 	}
 
-	private RecipeDTO toDTO(Recipe eRecipe) {
+	private RecipeDTO toDTO(Recipe eRecipe, DslQuery dslQuery) {
 		Objects.requireNonNull(eRecipe);
 		RecipeDTO sample = new RecipeDTO();
-		sample.setId(eRecipe.getId());
-		Short cookTime = eRecipe.getCookTime();
-		if (cookTime != null)
-			sample.setCookTime(cookTime);
-		Short prepTime = eRecipe.getPrepTime();
-		if (prepTime != null)
-			sample.setPrepTime(prepTime);
-		Image img = eRecipe.getImage();
-		if (img != null) {
-			ImageDTO iDTO = new ImageDTO();
-			iDTO.setId(img.getId());
-			sample.setImage(iDTO);
+		if (dslQuery.matches("id"))
+			sample.setId(eRecipe.getId());
+		if (dslQuery.matches("cookTime")) {
+			Short cookTime = eRecipe.getCookTime();
+			if (cookTime != null)
+				sample.setCookTime(cookTime);
 		}
-		Short servings = eRecipe.getServings();
-		if (servings != null)
-			sample.setServings(servings);
+		if (dslQuery.matches("prepTime")) {
+			Short prepTime = eRecipe.getPrepTime();
+			if (prepTime != null)
+				sample.setPrepTime(prepTime);
+		}
+		if (dslQuery.matches("image")) {
+			Image img = eRecipe.getImage();
+			if (img != null) {
+				ImageDTO iDTO = new ImageDTO();
+				iDTO.setId(img.getId());
+				sample.setImage(iDTO);
+			}
+		}
+		if (dslQuery.matches("servings")) {
+			Short servings = eRecipe.getServings();
+			if (servings != null)
+				sample.setServings(servings);
+		}
 		for (RecipeDescription rDescription : eRecipe.getDescriptions())
 			if (rDescription.getLangCode().equals(lCode)) {
-				sample.setConclusion(rDescription.getConclusion());
-				sample.setTitle(rDescription.getTitle());
-				sample.setSummary(rDescription.getSummary());
+				if (dslQuery.matches("conclusion"))
+					sample.setConclusion(rDescription.getConclusion());
+				if (dslQuery.matches("title"))
+					sample.setTitle(rDescription.getTitle());
+				if (dslQuery.matches("summary"))
+					sample.setSummary(rDescription.getSummary());
 			}
-		List<IngredientGroupDTO> ingGroups = new ArrayList<IngredientGroupDTO>();
-		for (IngredientGroup rGroup : eRecipe.getIngGroups()) {
-			IngredientGroupDTO iGroupDTO = new IngredientGroupDTO();
-			for (IngredientGroupDescription rGroupDescription : rGroup.getDescriptions())
-				if (rGroupDescription.getLangCode().equals(lCode))
-					iGroupDTO.setName(rGroupDescription.getTitle());
-			List<IngredientDTO> ingredientDTOs = new ArrayList<IngredientDTO>();
-			for (Ingredient ing : rGroup.getIngredients()) {
-				IngredientDTO ingDTO = new IngredientDTO();
-				ingDTO.setAmount(ing.getAmount());
-				Food food = ing.getFood();
-				ingDTO.setFood(fs.findFood(food.getId()));
-				ingredientDTOs.add(ingDTO);
+
+		DslQuery subQuery = dslQuery.subQuery("ingGroups");
+		if (subQuery != null) {
+			List<IngredientGroupDTO> ingGroups = new ArrayList<IngredientGroupDTO>();
+			for (IngredientGroup rGroup : eRecipe.getIngGroups()) {
+				IngredientGroupDTO iGroupDTO = new IngredientGroupDTO();
+				if (subQuery.matches("name")) {
+					for (IngredientGroupDescription rGroupDescription : rGroup.getDescriptions())
+						if (rGroupDescription.getLangCode().equals(lCode))
+							iGroupDTO.setName(rGroupDescription.getTitle());
+				}
+				subQuery = subQuery.subQuery("ingredients");
+				if (subQuery != null) {
+					List<IngredientDTO> ingredientDTOs = new ArrayList<IngredientDTO>();
+					for (Ingredient ing : rGroup.getIngredients()) {
+						IngredientDTO ingDTO = new IngredientDTO();
+						if (subQuery.matches("amount")) {
+							ingDTO.setAmount(ing.getAmount());
+						}
+						if (subQuery.matches("food")) {
+							Food food = ing.getFood();
+							ingDTO.setFood(fs.findFood(food.getId(), subQuery.subQuery("food")));
+						}
+						ingredientDTOs.add(ingDTO);
+					}
+					iGroupDTO.setIngredients(ingredientDTOs);
+				}
+				ingGroups.add(iGroupDTO);
 			}
-			iGroupDTO.setIngredients(ingredientDTOs);
-			ingGroups.add(iGroupDTO);
+			sample.setIngGroups(ingGroups);
 		}
-		sample.setIngGroups(ingGroups);
 
 		List<StepGroupDTO> stpGroups = new ArrayList<StepGroupDTO>();
 		for (StepGroup sGroup : eRecipe.getStpGroups()) {

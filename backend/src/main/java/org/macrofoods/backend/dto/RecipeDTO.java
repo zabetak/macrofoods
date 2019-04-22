@@ -3,15 +3,15 @@ package org.macrofoods.backend.dto;
 import java.util.List;
 
 public final class RecipeDTO {
-	private int id;
+	private Integer id;
 	private String title;
 	private String summary;
 	private String conclusion;
-	private short prepTime;
-	private short cookTime;
-	private short servings;
+	private Short prepTime;
+	private Short cookTime;
+	private Short servings;
 	private ImageDTO image;
-	private short difficulty;
+	private Short difficulty;
 	private List<IngredientGroupDTO> ingGroups;
 	private List<StepGroupDTO> stepGroups;
 	private List<TagDTO> tags;
@@ -20,7 +20,7 @@ public final class RecipeDTO {
 		this.id = id;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
@@ -48,7 +48,7 @@ public final class RecipeDTO {
 		this.conclusion = conclusion;
 	}
 
-	public short getPrepTime() {
+	public Short getPrepTime() {
 		return prepTime;
 	}
 
@@ -56,7 +56,7 @@ public final class RecipeDTO {
 		this.prepTime = prepTime;
 	}
 
-	public short getCookTime() {
+	public Short getCookTime() {
 		return cookTime;
 	}
 
@@ -72,7 +72,7 @@ public final class RecipeDTO {
 		this.image = image;
 	}
 
-	public short getDifficulty() {
+	public Short getDifficulty() {
 		return difficulty;
 	}
 
@@ -96,7 +96,7 @@ public final class RecipeDTO {
 		this.stepGroups = stepGroup;
 	}
 
-	public short getServings() {
+	public Short getServings() {
 		return servings;
 	}
 
