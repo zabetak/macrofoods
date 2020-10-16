@@ -1,0 +1,8 @@
+<!-- Configuration to allow access to manager from outside the Docker 
+container. The following configuration basically opens access from all
+machines. This is not a problem in the current setting since we are in
+dev environement. -->
+<Context privileged="true" antiResourceLocking="false"
+         docBase="${catalina.home}/webapps/manager">
+    <Valve className="org.apache.catalina.valves.RemoteAddrValve" allow="^.*$" />
+</Context>

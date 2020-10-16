@@ -1,0 +1,74 @@
+#
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#
+version: "2.2"
+
+services:
+  postgres:
+    container_name: mf_postgres
+    image: postgres:12
+    volumes:
+      - ./postgres/db.dump:/tmp/db.dump
+      - ./postgres/00_init_db.sql:/docker-entrypoint-initdb.d/00_init_db.sql
+      - ./postgres/01_restore_db.sh:/docker-entrypoint-initdb.d/01_restore_db.sh
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    expose:
+      - "5432"
+
+  tomcat:
+    container_name: mf_tomcat
+    image: tomcat:9.0.4
+    depends_on:
+      - postgres
+    volumes:
+      - ./tomcat/conf/Catalina:/usr/local/tomcat/conf/Catalina
+      - ./tomcat/conf/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
+      - ./tomcat/lib/postgresql-42.2.17.jar:/usr/local/tomcat/lib/postgresql-42.2.17.jar
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+    links:
+      - postgres
+
+  # This container is optional, if you already have Java and Maven
+  # installed then it is not necessary to use this goal
+  build_backend:
+    container_name: mf_build_backend
+    image: maven:3.6.3-jdk-11
+    working_dir: /app
+    command: mvn tomcat7:redeploy
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - tomcat
+    links:
+      - tomcat
+
+  frontend:
+    container_name: mf_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - '/app/node_modules'
+    ports:
+      - "4200:4200"

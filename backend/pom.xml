@@ -71,8 +71,10 @@
 					<configuration>
 						<server>Tomcat-localhost</server>
 						<!-- <url>${tomcat.deploy.url}</url> -->
-						<url>http://localhost:8080/manager/text</url>
+						<url>http://tomcat:8080/manager/text</url>
 						<path>/macrofoods</path>
+                        <username>devuser</username>
+                        <password>devpwd</password>
 					</configuration>
 				</plugin>
 				<plugin>
