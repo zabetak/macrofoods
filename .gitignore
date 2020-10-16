@@ -1,6 +1,8 @@
 RemoteSystemsTempFiles
 .metadata
 .recommenders
+.idea
+*.iml
 */target
 */.settings
 */.project
